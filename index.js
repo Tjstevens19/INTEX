@@ -31,6 +31,33 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    // Perform authentication logic here (dummy example: check if username and password match)
+    if (username === 'user' && password === 'pass') {
+        res.send('Login successful!');
+    } else {
+        res.send('Login failed. Check your username and password.');
+    }
+});
+
+app.get('/create-account', (req, res) => {
+    res.render('createUser');
+});
+
+app.post('/create-account', (req, res) => {
+    knex("users").insert({user_name: req.body.user_name, password: req.body.password}).then(mybands => {
+        res.redirect("/");
+    })
+    // Perform account creation logic here
+    // (dummy example: store newUsername and newPassword in a database)
+    res.send('Account created successfully!');
+});
+
 app.get("/findRecord", (req, res) => {
     res.render("findRecord", {});
 });
