@@ -61,7 +61,12 @@ app.post('/login', (req, res) => {
                     // res.send('Login successful!');
                     res.redirect("/displayData");
                 } else {
-                    res.send('Login failed. Check your username and password.');
+                    res.send(`
+                    <script>
+                        alert('Login failed. Check your username and password.');
+                        window.location.href = '/login';
+                    </script>
+                `);
                 }
             } else {
                 res.send(`
