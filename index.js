@@ -2,6 +2,7 @@ const express = require("express");
 let app = express();
 let path = require("path");
 const port = process.env.PORT || 3000;
+app.use(express.static(path.join(__dirname, 'public')));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
 
@@ -17,18 +18,22 @@ const knex = require("knex")({
     }
 });  
 
+// app.get("/", (req, res) => {
+//     knex.select("band_id", 
+//                 "band_name", 
+//                 "lead_singer",
+//                 "music_genre",
+//                 "still_rocking",
+//                 "rating").from('bands').then(bands => {
+//         res.render("displayBand", {mybands: bands});
+//     }).catch(err => {
+//         console.log(err);
+//         res.status(500).json({err});
+//     });
+// });
+
 app.get("/", (req, res) => {
-    knex.select("band_id", 
-                "band_name", 
-                "lead_singer",
-                "music_genre",
-                "still_rocking",
-                "rating").from('bands').then(bands => {
-        res.render("displayBand", {mybands: bands});
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({err});
-    });
+    res.render("landingPage");
 });
 
 app.get('/login', (req, res) => {
@@ -78,6 +83,10 @@ app.post('/createAccount', (req, res) => {
         res.send('Account created successfully!');
         res.redirect("/login");
     })
+});
+
+app.get('/modifyAccount', (req, res) => {
+    res.render('modifyUser');
 });
 
 app.post('/modifyAccount', (req, res) => {
@@ -132,6 +141,10 @@ app.post("/editBand", (req, res) => {
 app.get("/addBand", (req, res) => {
     res.render("addBand");
 });    
+
+app.get("/addResponse", (req, res) => {
+    res.render("dataGather");
+});    
     
 // This is one way to do it. This way doesn't specify the column names where you want to insert and just inserts all.
 // app.post("/addBand", (req, res) => {
@@ -143,6 +156,12 @@ app.get("/addBand", (req, res) => {
 // This is another way, just specifying the column names you want to insert.
 app.post("/addBand", (req, res) => {
     knex("bands").insert({band_name: req.body.band_name.toUpperCase(), lead_singer: req.body.lead_singer.toUpperCase()}).then(mybands => {
+        res.redirect("/");
+    })
+});
+
+app.post("/addResponse", (req, res) => {
+    knex("SurveyResults").insert({band_name: req.body.band_name.toUpperCase(), lead_singer: req.body.lead_singer.toUpperCase()}).then(mybands => {
         res.redirect("/");
     })
 });

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Customer Feedback Form</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="testbox">
+      <form action="/addResponse" method="post">
+        <h1>Customer Feedback Form</h1>
+        <p>Please take a few minutes to give us feedback about our service by filling in this short Customer Feedback Form. We are conducting this research in order to measure your level of satisfaction with the quality of our service. We thank you for your participation.</p>
+        <hr />
+        <div class="form-container">
+            <div class="form-group">
+              <label for="gender">Gender</label><br>
+              <select id="gender" name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <!-- Add more gender options as needed -->
+              </select>
+            </div>
+          
+            <div class="form-group">
+              <label for="relationship">Relationship Status</label><br>
+              <select id="relationship" name="relationship">
+                <option value="single">Single</option>
+                <option value="inRelationship">In a Relationship</option>
+                <option value="married">Married</option>
+                <option value="divorced">Divorced</option>
+                <!-- Add more relationship options as needed -->
+              </select>
+            </div>
+          </div>
+        <div class="question">
+            <label>What social media platforms do you commonly use?</label>
+            <div class="question-answer">
+              <div>
+                <input type="checkbox" value="none" id="radio_1" name="info"/>
+                <label for="radio_1" class="checkbox"><span>Facebook</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_2" name="info"/>
+                <label for="radio_2" class="checkbox"><span>Twitter</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_3" name="info"/>
+                <label for="radio_3" class="checkbox"><span>Instagram</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_4" name="info"/>
+                <label for="radio_4" class="checkbox"><span>Youtube</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_5" name="info"/>
+                <label for="radio_5" class="checkbox"><span>Snapchat</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_6" name="info"/>
+                <label for="radio_6" class="checkbox"><span>Discord</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_7" name="info"/>
+                <label for="radio_7" class="checkbox"><span>Reddit</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_8" name="info"/>
+                <label for="radio_8" class="checkbox"><span>Pinterest</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_9" name="info"/>
+                <label for="radio_9" class="checkbox"><span>TikTok</span></label>
+              </div>
+              <div>
+                <input  type="checkbox" value="none" id="radio_10" name="info"/>
+                <label for="radio_10" class="checkbox"><span>Other</span></label>
+              </div>
+        
+            </div>
+          </div>
+        <h3>Overall experience with our service</h3>
+        <table>
+          <tr>
+            <th class="first-col"></th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+          </tr>
+          <tr>
+            <td class="first-col">How often do you find yourself using Social media without a specific purpose?</td>
+            <td><input type="radio" value="none" name="rate" /></td>
+            <td><input type="radio" value="none" name="rate" /></td>
+            <td><input type="radio" value="none" name="rate" /></td>
+            <td><input type="radio" value="none" name="rate" /></td>
+            <td><input type="radio" value="none" name="rate" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">How often do you get distracted by Social media when you are busy doing something?</td>
+            <td><input type="radio" value="none" name="satisfied" /></td>
+            <td><input type="radio" value="none" name="satisfied" /></td>
+            <td><input type="radio" value="none" name="satisfied" /></td>
+            <td><input type="radio" value="none" name="satisfied" /></td>
+            <td><input type="radio" value="none" name="satisfied" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">Do you feel restless if you haven't used Social media in a while?</td>
+            <td><input type="radio" value="none" name="prices" /></td>
+            <td><input type="radio" value="none" name="prices" /></td>
+            <td><input type="radio" value="none" name="prices" /></td>
+            <td><input type="radio" value="none" name="prices" /></td>
+            <td><input type="radio" value="none" name="prices" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">On a scale of 1 to 5, how easily distracted are you?</td>
+            <td><input type="radio" value="none" name="timeliness" /></td>
+            <td><input type="radio" value="none" name="timeliness" /></td>
+            <td><input type="radio" value="none" name="timeliness" /></td>
+            <td><input type="radio" value="none" name="timeliness" /></td>
+            <td><input type="radio" value="none" name="timeliness" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">On a scale of 1 to 5, how much are you bothered by worries?</td>
+            <td><input type="radio" value="none" name="name" /></td>
+            <td><input type="radio" value="none" name="name" /></td>
+            <td><input type="radio" value="none" name="name" /></td>
+            <td><input type="radio" value="none" name="name" /></td>
+            <td><input type="radio" value="none" name="name" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">Do you find it difficult to concentrate on things?</td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">On a scale of 1-5, how often do you compare yourself to other successful people through the use of social media?</td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">Following the previous question, how do you feel about these comparisons, generally speaking?</td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+          </tr>
+          <tr>
+            <td class="first-col">How often do you look to seek validation from features of social media?</td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+          </tr>
+          <tr>
+            <td class="first-col"> How often do you feel depressed or down?</td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+          </tr>
+          <tr>
+            <td class="first-col"> On a scale of 1 to 5, how frequently does your interest in daily activities fluctuate?</td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+          </tr>
+          <tr>
+            <td class="first-col"> On a scale of 1 to 5, how often do you face issues regarding sleep?</td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="none" name="recommend" /></td>
+          </tr>
+
+
+
+
+        </table>
+        <h4>What should we change in order to live up to your expectations?</h4>
+        <textarea rows="5" name="comments"></textarea>
+        <h4>Email</h4>
+        <small>Only if you want to hear more from us.</small>
+        <input class="email" type="text" name="name" />
+        <div class="btn-block">
+          <button type="submit" href="/">Send Feedback</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
