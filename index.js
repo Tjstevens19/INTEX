@@ -90,9 +90,16 @@ app.get('/createAccount', (req, res) => {
 
 app.post('/createAccount', (req, res) => {
     knex("users").insert({user_name: req.body.newUsername, password: req.body.newPassword}).then(users => {
-        res.send('Account created successfully!');
-        res.redirect("/login");
-    })
+        res.send(`
+        <script>
+            alert('Account created successfully!');
+            window.location.href = '/displayData';
+        </script>
+    `);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({ err });
+    });
 });
 
 app.get('/modifyAccount', (req, res) => {
@@ -105,6 +112,9 @@ app.post('/modifyAccount', (req, res) => {
         password: req.body.newPassword,
     }).then(users => {
         res.redirect("/login");
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({ err });
     });    
 });
 
