@@ -80,6 +80,15 @@ app.post('/createAccount', (req, res) => {
     })
 });
 
+app.post('/modifyAccount', (req, res) => {
+    knex("users").where("user_id", parseInt(req.body.user_id)).update({
+        user_name : req.body.newUsername,
+        password: req.body.newPassword,
+    }).then(users => {
+        res.redirect("/login");
+    });    
+});
+
 app.get("/findRecord", (req, res) => {
     res.render("findRecord", {});
 });
