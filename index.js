@@ -45,7 +45,7 @@ app.post('/login', (req, res) => {
 
     knex
         .select("user_name", "password")
-        .from("user")
+        .from("users")
         .where("user_name", username)
         .then(users => {
             if (users.length > 0) {
@@ -98,49 +98,49 @@ app.post('/modifyAccount', (req, res) => {
     });    
 });
 
-app.get("/findRecord", (req, res) => {
-    res.render("findRecord", {});
-});
+// app.get("/findRecord", (req, res) => {
+//     res.render("findRecord", {});
+// });
 
-app.get("/chooseBand/:bandName", (req, res) => {
-    knex.select("band_name", "lead_singer").from('bands').where("band_name", req.params.bandName).then(bands => {
-        res.render("displayBand", {mybands: bands});
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({err});
-    });
-});
+// app.get("/chooseBand/:bandName", (req, res) => {
+//     knex.select("band_name", "lead_singer").from('bands').where("band_name", req.params.bandName).then(bands => {
+//         res.render("displayBand", {mybands: bands});
+//     }).catch(err => {
+//         console.log(err);
+//         res.status(500).json({err});
+//     });
+// });
 
-app.get("/editBand", (req, res) => {
-    knex.select("band_id", 
-                "band_name", 
-                "lead_singer",
-                "music_genre",
-                "still_rocking",
-                "rating").from("bands").where("band_name", req.query.band_name.toUpperCase()).then(bands => {
-                    res.render("editBand", {mybands: bands});
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({err});
-    });    
-});
+// app.get("/editBand", (req, res) => {
+//     knex.select("band_id", 
+//                 "band_name", 
+//                 "lead_singer",
+//                 "music_genre",
+//                 "still_rocking",
+//                 "rating").from("bands").where("band_name", req.query.band_name.toUpperCase()).then(bands => {
+//                     res.render("editBand", {mybands: bands});
+//     }).catch(err => {
+//         console.log(err);
+//         res.status(500).json({err});
+//     });    
+// });
 
 
-app.post("/editBand", (req, res) => {
-    knex("bands").where("band_id", parseInt(req.body.band_id)).update({
-        band_name: req.body.bandName,
-        lead_singer: req.body.singer,
-        music_genre: req.body.music_genre,
-        still_rocking: req.body.still_rocking ? "Y" : "N",
-        rating: req.body.rating
-    }).then(mybands => {
-        res.redirect("/");
-    });    
-});
+// app.post("/editBand", (req, res) => {
+//     knex("bands").where("band_id", parseInt(req.body.band_id)).update({
+//         band_name: req.body.bandName,
+//         lead_singer: req.body.singer,
+//         music_genre: req.body.music_genre,
+//         still_rocking: req.body.still_rocking ? "Y" : "N",
+//         rating: req.body.rating
+//     }).then(mybands => {
+//         res.redirect("/");
+//     });    
+// });
 
-app.get("/addBand", (req, res) => {
-    res.render("addBand");
-});    
+// app.get("/addBand", (req, res) => {
+//     res.render("addBand");
+// });    
 
 app.get("/addResponse", (req, res) => {
     res.render("dataGather");
@@ -154,11 +154,11 @@ app.get("/addResponse", (req, res) => {
 // }); 
 
 // This is another way, just specifying the column names you want to insert.
-app.post("/addBand", (req, res) => {
-    knex("bands").insert({band_name: req.body.band_name.toUpperCase(), lead_singer: req.body.lead_singer.toUpperCase()}).then(mybands => {
-        res.redirect("/");
-    })
-});
+// app.post("/addBand", (req, res) => {
+//     knex("bands").insert({band_name: req.body.band_name.toUpperCase(), lead_singer: req.body.lead_singer.toUpperCase()}).then(mybands => {
+//         res.redirect("/");
+//     })
+// });
 
 app.post("/addResponse", (req, res) => {
     knex("SurveyResults").insert({band_name: req.body.band_name.toUpperCase(), lead_singer: req.body.lead_singer.toUpperCase()}).then(mybands => {
@@ -166,22 +166,22 @@ app.post("/addResponse", (req, res) => {
     })
 });
 
-app.post("/deleteBand/:id", (req, res) => {
-    knex("bands").where("band_id", req.params.id).del().then(mybands => {
-        res.redirect("/");
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({err});
-    })
-});
+// app.post("/deleteBand/:id", (req, res) => {
+//     knex("bands").where("band_id", req.params.id).del().then(mybands => {
+//         res.redirect("/");
+//     }).catch(err => {
+//         console.log(err);
+//         res.status(500).json({err});
+//     })
+// });
 
-app.post("/deleteAllBands", (req, res) => {
-    knex("bands").del().then(mybands => {
-        res.redirect("/");
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({err});
-    })
-}); 
+// app.post("/deleteAllBands", (req, res) => {
+//     knex("bands").del().then(mybands => {
+//         res.redirect("/");
+//     }).catch(err => {
+//         console.log(err);
+//         res.status(500).json({err});
+//     })
+// }); 
 
 app.listen(port, () => console.log("Express App has started and server is listening!"));
