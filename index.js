@@ -37,25 +37,47 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-    // Perform authentication logic here (dummy example: check if username and password match)
-    if (username === 'user' && password === 'pass') {
-        res.send('Login successful!');
-    } else {
-        res.send('Login failed. Check your username and password.');
-    }
+
+    knex
+        .select("user_name", "password")
+        .from("user")
+        .where("user_name", username)
+        .then(users => {
+            if (users.length > 0) {
+                // Assuming passwords are hashed, you should use a proper authentication method here.
+                const storedPassword = users[0].password;
+
+                // Dummy example: Check if the provided password matches the stored password
+                if (username === "admin" && password === "admin") {
+                    res.send('Login successful!');
+                    res.redirect("/displayAllData");
+                }
+                else if (password === storedPassword) {
+                    res.send('Login successful!');
+                    res.redirect("/displayData");
+                } else {
+                    res.send('Login failed. Check your username and password.');
+                }
+            } else {
+                res.send('Login failed. No user found with that username, please try again or create an account.');
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ err });
+        });
 });
 
-app.get('/create-account', (req, res) => {
+
+app.get('/createAccount', (req, res) => {
     res.render('createUser');
 });
 
-app.post('/create-account', (req, res) => {
-    knex("users").insert({user_name: req.body.user_name, password: req.body.password}).then(mybands => {
-        res.redirect("/");
+app.post('/createAccount', (req, res) => {
+    knex("users").insert({user_name: req.body.newUsername, password: req.body.newPassword}).then(users => {
+        res.send('Account created successfully!');
+        res.redirect("/login");
     })
-    // Perform account creation logic here
-    // (dummy example: store newUsername and newPassword in a database)
-    res.send('Account created successfully!');
 });
 
 app.get("/findRecord", (req, res) => {
