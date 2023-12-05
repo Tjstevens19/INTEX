@@ -54,17 +54,22 @@ app.post('/login', (req, res) => {
 
                 // Dummy example: Check if the provided password matches the stored password
                 if (username === "admin" && password === "admin") {
-                    res.send('Login successful!');
+                    // res.send('Login successful!');
                     res.redirect("/displayAllData");
                 }
                 else if (password === storedPassword) {
-                    res.send('Login successful!');
+                    // res.send('Login successful!');
                     res.redirect("/displayData");
                 } else {
                     res.send('Login failed. Check your username and password.');
                 }
             } else {
-                res.send('Login failed. No user found with that username, please try again or create an account.');
+                res.send(`
+                <script>
+                    alert('Login failed. No user found with that username, please try again or create an account.');
+                    window.location.href = '/login';
+                </script>
+            `);
             }
         })
         .catch(err => {
