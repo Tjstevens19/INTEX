@@ -12,7 +12,7 @@ const knex = require("knex")({
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
         password : process.env.RDS_PASSWORD || "S0cc3rr0cks",
-        database : process.env.RDS_DB_NAME || "music",
+        database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -89,34 +89,99 @@ app.get('/createAccount', (req, res) => {
 });
 
 app.post('/createAccount', (req, res) => {
-    knex("users").insert({user_name: req.body.newUsername, password: req.body.newPassword}).then(users => {
-        res.send(`
-        <script>
-            alert('Account created successfully!');
-            window.location.href = '/displayData';
-        </script>
-    `);
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({ err });
-    });
+    const { newUsername, newPassword } = req.body;
+
+    // Check if the username already exists
+    knex
+        .select("user_name")
+        .from("users")
+        .where("user_name", newUsername)
+        .then(users => {
+            if (users.length > 0) {
+                // An account already exists with that username
+                res.send(`
+                    <script>
+                        alert('An account already exists with that Username');
+                        window.location.href = '/createAccount';
+                    </script>
+                `);
+            } else {
+                // Insert the new user into the database
+                knex("users")
+                    .insert({ user_name: newUsername, password: newPassword })
+                    .returning("*")  // This line returns the inserted user data
+                    .then(insertedUsers => {
+                        // Check if the insertion was successful
+                        if (insertedUsers.length > 0) {
+                            res.send(`
+                                <script>
+                                    alert('Account created successfully!');
+                                    window.location.href = '/displayData';
+                                </script>
+                            `);
+                        } else {
+                            // Handle the case where insertion failed
+                            res.send(`
+                                <script>
+                                    alert('Account creation failed. Please try again.');
+                                    window.location.href = '/createAccount';
+                                </script>
+                            `);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({ err });
+                    });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ err });
+        });
 });
+
 
 app.get('/modifyAccount', (req, res) => {
     res.render('modifyUser');
 });
 
 app.post('/modifyAccount', (req, res) => {
-    knex("users").where("user_id", parseInt(req.body.user_id)).update({
-        user_name : req.body.newUsername,
-        password: req.body.newPassword,
-    }).then(users => {
-        res.redirect("/login");
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({ err });
-    });    
+    const { user_id, newUsername, newPassword } = req.body;
+
+    knex("users")
+        .where("user_id", parseInt(user_id))
+        .update({
+            user_name: newUsername,
+            password: newPassword,
+        })
+        .returning("*")  // Retrieve the updated user data
+        .then(updatedUsers => {
+            if (updatedUsers.length === 0) {
+                // User not found, handle accordingly (e.g., display an error message)
+                res.send(`
+                    <script>
+                        alert('User not found. Unable to modify account.');
+                        window.location.href = '/displayData';
+                    </script>
+                `);
+            } else {
+                // Redirect after successful modification with a success message
+                res.send(`
+                    <script>
+                        alert('User updated successfully.');
+                        window.location.href = '/displayData';
+                    </script>
+                `);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ err });
+        });
 });
+
+
 
 // app.get("/findRecord", (req, res) => {
 //     res.render("findRecord", {});
@@ -181,7 +246,10 @@ app.get("/addResponse", (req, res) => {
 // });
 
 app.post("/addResponse", (req, res) => {
-    knex("SurveyResults").insert({band_name: req.body.band_name.toUpperCase(), lead_singer: req.body.lead_singer.toUpperCase()}).then(mybands => {
+    knex("Survey_Responses").insert({platforms: req.body.platforms, lead_singer: req.body.lead_singer.toUpperCase()})
+    
+
+    .then(mybands => {
         res.redirect("/");
     })
 });

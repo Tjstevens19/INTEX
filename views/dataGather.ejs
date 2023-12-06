@@ -4,83 +4,197 @@
     <title>Customer Feedback Form</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link href="css/form.css" rel="stylesheet" />
+    
+    <link href="css/styles.css" rel="stylesheet">
+    
   </head>
-  <body>
+  <body id="page-top" class="special-page">
+     <!-- Navigation-->
+     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+      <div class="container px-5">
+          <a class="navbar-brand" href="#page-top">Mindful Media Initiative</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav><br><br><br>
+  
     <div class="testbox">
       <form action="/addResponse" method="post">
-        <h1>Customer Feedback Form</h1>
-        <p>Please take a few minutes to give us feedback about our service by filling in this short Customer Feedback Form. We are conducting this research in order to measure your level of satisfaction with the quality of our service. We thank you for your participation.</p>
+        <h1>Social Media Usage and Mental Health</h1>
+        <p>Your insights are crucial in helping us understand the nuances of the digital landscape and its potential effects on mental health. 
+          By participating, you play a vital role in shaping initiatives to address concerns such as anxiety, depression, and social isolation.</p>
+
         <hr />
-        <div class="form-container">
-            <div class="form-group">
-              <label for="gender">Gender</label><br>
+        <div class="q">
+        <div class="age">
+    
+            <label for="age">What is your age?</label><br>
+            <input type="text" id="age" name="age" pattern="[0-9]+" title="Please enter a valid age as a number" required><br>
+        
+          </div>
+        </div>
+        <div class="q">
+           
+              <label for="gender">What is your gender?</label><br>
               <select id="gender" name="gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-                <!-- Add more gender options as needed -->
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
-            </div>
-          
-            <div class="form-group">
+            
+          </div>
+          <div class="q">
+            
               <label for="relationship">Relationship Status</label><br>
               <select id="relationship" name="relationship">
-                <option value="single">Single</option>
-                <option value="inRelationship">In a Relationship</option>
-                <option value="married">Married</option>
-                <option value="divorced">Divorced</option>
-                <!-- Add more relationship options as needed -->
+                <option value="Single">Single</option>
+                <option value="In a relationship">In a Relationship</option>
+                <option value="Married">Married</option>
+                <option value="Divorced">Divorced</option>
+                </select>
+           
+          </div>
+          <div class="q">
+            
+            <label for="location">What city are you in?</label><br>
+            <select id="location" name="location">
+              <option value="Provo" selected>Provo</option>
+              <option value="Plainsville">Plainsville</option>
+              
               </select>
+         
+        </div>
+          <div class="q">
+              <label for="Occupation">Occupation Status</label><br>
+              <select id="Occupation" name="Occupation">
+                <option value="University Student">University Student</option>
+                <option value="Salaried Worker">Salaried Worker</option>
+                <option value="School Student">School Student</option>
+                <option value="Retired">Retired</option>
+                </select>
+          </div>
+          
+          <div class="q">
+          <div class="question">
+            <label>What type of organizations are you affiliated with? <i> (Select All That Apply)</strong></i> </label>
+            <div class="question-answer">
+                <input type="checkbox" value="University" id="org1" name="organizations"/>
+                <label for="org1" class="checkbox"><span>University</span></label>
+                <input type="checkbox" value="School" id="org2" name="organizations"/>
+                <label for="org2" class="checkbox"><span>School</span></label>
+                <input type="checkbox" value="Private" id="org3" name="organizations"/>
+                <label for="org3" class="checkbox"><span>Private</span></label>
+                <input type="checkbox" value="Governemnt" id="org4" name="organizations"/>
+                <label for="org4" class="checkbox"><span>Government</span></label>
+                <input type="checkbox" value="Company" id="org5" name="organizations"/>
+                <label for="org5" class="checkbox"><span>Company</span></label>
+                <input type="checkbox" value="N/A" id="org6" name="organizations"/>
+                <label for="org6" class="checkbox"><span>N/A</span></label>
             </div>
           </div>
-        <div class="question">
-            <label>What social media platforms do you commonly use?</label>
+                        
+                       
+          
+          </div>
+            
+          <div class="q">
+            
+              <label for="usage">Do you use Social Media?</label><br>
+              <select id="usage" name="usage"  onchange="handleSocialMediaUsage()">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                </select>
+          
+          </div>
+
+          <!-- Java script that makes table rows dissapear if user isnt social media user -->
+          <script>
+                   function handleSocialMediaUsage() {
+                  var selectElement = document.getElementById("usage");
+                  var hideableRows = document.querySelectorAll('.hideable');
+
+                  // Toggle the visibility based on the selected value
+                  hideableRows.forEach(row => row.style.display = selectElement.value === "No" ? "none" : "");
+                }
+      </script>
+
+<div class="hideable">
+           <div class="q" >
+              <label for="AvgTime">What is the average time you spend on social media every day?</label><br>
+              <select id="AvgTime" name="AvgTime">
+               <option value="Lesst han an Hour">Less than an Hour</option>
+                <option value="Between 1 and 2 hours">Between 1 and 2 hours</option>
+                <option value="Between 2 and 3 hours">Between 2 and 3 hours</option>
+                <option value="Between 3 and 4 hours">Between 3 and 4 hours</option>
+                <option value="More than 5 hours">More than 5 hours</option>
+              </select>
+          
+          </div>
+        </div>
+          <br>
+  <div class="hideable">
+    <div class="q">
+
+    <div class="question">
+          
+          
+            <label>What social media platforms do you commonly use?<i> (Select All That Apply)</strong></i> </label>
             <div class="question-answer">
               <div>
-                <input type="checkbox" value="none" id="radio_1" name="info"/>
-                <label for="radio_1" class="checkbox"><span>Facebook</span></label>
+                <input type="checkbox" value="1" id="p1" name="platforms"/>
+                <label for="p1" class="checkbox"><span>Facebook</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_2" name="info"/>
-                <label for="radio_2" class="checkbox"><span>Twitter</span></label>
+                <input  type="checkbox" value="2" id="p2" name="platforms"/>
+                <label for="p2" class="checkbox"><span>Twitter</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_3" name="info"/>
-                <label for="radio_3" class="checkbox"><span>Instagram</span></label>
+                <input  type="checkbox" value="3" id="p3" name="platforms"/>
+                <label for="p3" class="checkbox"><span>Instagram</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_4" name="info"/>
-                <label for="radio_4" class="checkbox"><span>Youtube</span></label>
+                <input  type="checkbox" value="4" id="p4" name="platforms"/>
+                <label for="p4" class="checkbox"><span>Youtube</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_5" name="info"/>
-                <label for="radio_5" class="checkbox"><span>Snapchat</span></label>
+                <input  type="checkbox" value="5" id="p5" name="platforms"/>
+                <label for="p5" class="checkbox"><span>Snapchat</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_6" name="info"/>
-                <label for="radio_6" class="checkbox"><span>Discord</span></label>
+                <input  type="checkbox" value="6" id="p6" name="platforms"/>
+                <label for="p6" class="checkbox"><span>Discord</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_7" name="info"/>
-                <label for="radio_7" class="checkbox"><span>Reddit</span></label>
+                <input  type="checkbox" value="7" id="p7" name="platforms"/>
+                <label for="p7" class="checkbox"><span>Reddit</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_8" name="info"/>
-                <label for="radio_8" class="checkbox"><span>Pinterest</span></label>
+                <input  type="checkbox" value="8" id="p8" name="platforms"/>
+                <label for="p8" class="checkbox"><span>Pinterest</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_9" name="info"/>
-                <label for="radio_9" class="checkbox"><span>TikTok</span></label>
+                <input  type="checkbox" value="9" id="p9" name="platforms"/>
+                <label for="p9" class="checkbox"><span>TikTok</span></label>
               </div>
               <div>
-                <input  type="checkbox" value="none" id="radio_10" name="info"/>
-                <label for="radio_10" class="checkbox"><span>Other</span></label>
-              </div>
-        
+                <input  type="checkbox" value="10" id="p10" name="platforms"/>
+                <label for="p10" class="checkbox"><span>Other</span></label>
+              </div><br>
+             
+          </div>
+        </div>
             </div>
           </div>
-        <h3>Overall experience with our service</h3>
+        <h3>Overall Questions</h3>
+          <div class="spaceFor"> 
+
+          </div>
+
+        <div class="q">
         <table>
           <tr>
             <th class="first-col"></th>
@@ -90,116 +204,118 @@
             <th>4</th>
             <th>5</th>
           </tr>
-          <tr>
-            <td class="first-col">How often do you find yourself using Social media without a specific purpose?</td>
-            <td><input type="radio" value="none" name="rate" /></td>
-            <td><input type="radio" value="none" name="rate" /></td>
-            <td><input type="radio" value="none" name="rate" /></td>
-            <td><input type="radio" value="none" name="rate" /></td>
-            <td><input type="radio" value="none" name="rate" /></td>
-          </tr>
-          <tr>
-            <td class="first-col">How often do you get distracted by Social media when you are busy doing something?</td>
-            <td><input type="radio" value="none" name="satisfied" /></td>
-            <td><input type="radio" value="none" name="satisfied" /></td>
-            <td><input type="radio" value="none" name="satisfied" /></td>
-            <td><input type="radio" value="none" name="satisfied" /></td>
-            <td><input type="radio" value="none" name="satisfied" /></td>
-          </tr>
-          <tr>
-            <td class="first-col">Do you feel restless if you haven't used Social media in a while?</td>
-            <td><input type="radio" value="none" name="prices" /></td>
-            <td><input type="radio" value="none" name="prices" /></td>
-            <td><input type="radio" value="none" name="prices" /></td>
-            <td><input type="radio" value="none" name="prices" /></td>
-            <td><input type="radio" value="none" name="prices" /></td>
-          </tr>
+          
+         
           <tr>
             <td class="first-col">On a scale of 1 to 5, how easily distracted are you?</td>
-            <td><input type="radio" value="none" name="timeliness" /></td>
-            <td><input type="radio" value="none" name="timeliness" /></td>
-            <td><input type="radio" value="none" name="timeliness" /></td>
-            <td><input type="radio" value="none" name="timeliness" /></td>
-            <td><input type="radio" value="none" name="timeliness" /></td>
+            <td><input type="radio" value="1" name="eDistract" /></td>
+            <td><input type="radio" value="2" name="eDistract" /></td>
+            <td><input type="radio" value="3" name="eDistract" /></td>
+            <td><input type="radio" value="4" name="eDistract" /></td>
+            <td><input type="radio" value="5" name="eDistract" /></td>
           </tr>
           <tr>
             <td class="first-col">On a scale of 1 to 5, how much are you bothered by worries?</td>
-            <td><input type="radio" value="none" name="name" /></td>
-            <td><input type="radio" value="none" name="name" /></td>
-            <td><input type="radio" value="none" name="name" /></td>
-            <td><input type="radio" value="none" name="name" /></td>
-            <td><input type="radio" value="none" name="name" /></td>
+            <td><input type="radio" value="1" name="worried" /></td>
+            <td><input type="radio" value="2" name="worried" /></td>
+            <td><input type="radio" value="3" name="worried" /></td>
+            <td><input type="radio" value="4" name="worried" /></td>
+            <td><input type="radio" value="5" name="worried" /></td>
           </tr>
           <tr>
             <td class="first-col">Do you find it difficult to concentrate on things?</td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="1" name="dConcentate" /></td>
+            <td><input type="radio" value="2" name="dConcentate" /></td>
+            <td><input type="radio" value="3" name="dConcentate" /></td>
+            <td><input type="radio" value="4" name="dConcentate" /></td>
+            <td><input type="radio" value="5" name="dConcentate" /></td>
           </tr>
-          <tr>
-            <td class="first-col">On a scale of 1-5, how often do you compare yourself to other successful people through the use of social media?</td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-          </tr>
-          <tr>
-            <td class="first-col">Following the previous question, how do you feel about these comparisons, generally speaking?</td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-          </tr>
-          <tr>
-            <td class="first-col">How often do you look to seek validation from features of social media?</td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-          </tr>
+         
           <tr>
             <td class="first-col"> How often do you feel depressed or down?</td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="1" name="depressed" /></td>
+            <td><input type="radio" value="2" name="depressed" /></td>
+            <td><input type="radio" value="3" name="depressed" /></td>
+            <td><input type="radio" value="4" name="depressed" /></td>
+            <td><input type="radio" value="5" name="depressed" /></td>
           </tr>
           <tr>
             <td class="first-col"> On a scale of 1 to 5, how frequently does your interest in daily activities fluctuate?</td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="1" name="fluctuate" /></td>
+            <td><input type="radio" value="2" name="fluctuate" /></td>
+            <td><input type="radio" value="3" name="fluctuate" /></td>
+            <td><input type="radio" value="4" name="fluctuate" /></td>
+            <td><input type="radio" value="5" name="fluctuate" /></td>
           </tr>
           <tr>
             <td class="first-col"> On a scale of 1 to 5, how often do you face issues regarding sleep?</td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
-            <td><input type="radio" value="none" name="recommend" /></td>
+            <td><input type="radio" value="1" name="sleepIssues" /></td>
+            <td><input type="radio" value="2" name="sleepIssues" /></td>
+            <td><input type="radio" value="3" name="sleepIssues" /></td>
+            <td><input type="radio" value="4" name="sleepIssues" /></td>
+            <td><input type="radio" value="5" name="sleepIssues" /></td>
+          </tr>
+          <tr class="hideable">
+            <td class="first-col">How often do you find yourself using Social media without a specific purpose?</td>
+            <td><input type="radio" value="1" name="purposeless" /></td>
+            <td><input type="radio" value="2" name="purposeless" /></td>
+            <td><input type="radio" value="3" name="purposeless" /></td>
+            <td><input type="radio" value="4" name="purposeless" /></td>
+            <td><input type="radio" value="5" name="purposeless" /></td>
+          </tr>
+          <tr class="hideable">
+            <td class="first-col">On a scale of 1-5, how often do you compare yourself to other successful people through the use of social media?</td>
+            <td><input type="radio" value="1" name="comparison" /></td>
+            <td><input type="radio" value="2" name="comparison" /></td>
+            <td><input type="radio" value="3" name="comparison" /></td>
+            <td><input type="radio" value="4" name="comparison" /></td>
+            <td><input type="radio" value="5" name="comparison" /></td>
+          </tr>
+          <tr class="hideable">
+            <td class="first-col">Following the previous question, how do you feel about these comparisons, generally speaking?<br><i>1 means Bad, 5 means Good</i> </td>
+            <td><input type="radio" value="1" name="comparisonFeeling" /></td>
+            <td><input type="radio" value="2" name="comparisonFeeling" /></td>
+            <td><input type="radio" value="3" name="comparisonFeeling" /></td>
+            <td><input type="radio" value="4" name="comparisonFeeling" /></td>
+            <td><input type="radio" value="5" name="comparisonFeeling" /></td>
+          </tr>
+          <tr class="hideable">
+            <td class="first-col">How often do you look to seek validation from features of social media?</td>
+            <td><input type="radio" value="1" name="validation" /></td>
+            <td><input type="radio" value="2" name="validation" /></td>
+            <td><input type="radio" value="3" name="validation" /></td>
+            <td><input type="radio" value="4" name="validation" /></td>
+            <td><input type="radio" value="5" name="validation" /></td>
+          </tr>
+          <tr class="hideable">
+            <td class="first-col">How often do you get distracted by Social media when you are busy doing something?</td>
+            <td><input type="radio" value="1" name="distracted" /></td>
+            <td><input type="radio" value="2" name="distracted" /></td>
+            <td><input type="radio" value="3" name="distracted" /></td>
+            <td><input type="radio" value="4" name="distracted" /></td>
+            <td><input type="radio" value="5" name="distracted" /></td>
+          </tr>
+          <tr class="hideable">
+            <td class="first-col">Do you feel restless if you haven't used Social media in a while?</td>
+            <td><input type="radio" value="1" name="restless" /></td>
+            <td><input type="radio" value="2" name="restless" /></td>
+            <td><input type="radio" value="3" name="restless" /></td>
+            <td><input type="radio" value="4" name="restless" /></td>
+            <td><input type="radio" value="5" name="restless" /></td>
           </tr>
 
-
-
+        </div>
 
         </table>
-        <h4>What should we change in order to live up to your expectations?</h4>
-        <textarea rows="5" name="comments"></textarea>
-        <h4>Email</h4>
-        <small>Only if you want to hear more from us.</small>
-        <input class="email" type="text" name="name" />
+        </div>
+    </div>
+    
         <div class="btn-block">
-          <button type="submit" href="/">Send Feedback</button>
+          <button type="submit">SUBMIT</button>
         </div>
       </form>
-    </div>
+      
+      </div>
+  
   </body>
 </html>
