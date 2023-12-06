@@ -40,6 +40,7 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
+
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -82,7 +83,53 @@ app.post('/login', (req, res) => {
             res.status(500).json({ err });
         });
 });
+app.get('/displayData', (req, res) => {
+        knex.select("User_Id", 
+                "Timestamp", 
+                "Age",
+                "Gender",
+                "Location",
+                "Relationship_Status",
+                "Social_Media_User", 
+                "Occupation",
+                "Avg_Social_Media_Hours_Daily",
+                "Purposless_Usage_Frequancy",
+                "Distracted_Use_Frequency",
+                "Restless_Without_Social_Media_Level", 
+                "General_Distraction_Level",
+                "General_Worry_Level",
+                "General_Difficulty_Concentrating_Level",
+                "Comparison_To_Others_Frequency",
+                "Feeling_About_Comparison_Level",
+                "Seeking_Validation_Frequency", 
+                "Depression_Frequency",
+                "Interest_Fluctuation_Frequency",
+                "Sleep_Issue_Frequency",
+                "Comments",
+                ).from('Survey_Responses').then(responses => {
+        res.render("displayData", {SurveyResponses: responses});
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({err});
+    });
 
+});
+
+//  app.get("/displayData", (req, res) => {
+//     res.render("displayData");
+
+    // knex.select("band_id", 
+    //             "band_name", 
+    //             "lead_singer",
+    //             "music_genre",
+    //             "still_rocking",
+    //             "rating").from('bands').then(bands => {
+        // res.render("displayBand", {mybands: bands});
+    // }).catch(err => {
+    //     console.log(err);
+    //     res.status(500).json({err});
+    // });
+// });
 
 app.get('/createAccount', (req, res) => {
     res.render('createUser');
