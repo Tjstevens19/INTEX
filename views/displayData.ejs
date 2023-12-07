@@ -72,7 +72,6 @@
         <table class="content-table">   
             <thead>   
                 <tr>
-                    <th style="text-align:left">Timestamp</th>
                     <th style="text-align:left">User ID</th>
                     <th style="text-align:left">Timestamp</th>
                     <th style="text-align:left">Age</th>
@@ -109,7 +108,6 @@
             
             <% for (let iCount = 0; iCount < SurveyResponses.length; iCount++){ %>
                 <tr class="active-row">
-                    <td><%= SurveyResponses[iCount].Timestamp %></td>
                     <td><%= SurveyResponses[iCount].User_Id %></td>
                     <td><%= SurveyResponses[iCount].Timestamp.toLocaleString() %></td>
                     <td><%= SurveyResponses[iCount].Age %></td>   
