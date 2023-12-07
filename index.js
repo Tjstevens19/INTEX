@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "flexflex" || "admin" || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "admin" || "S0cc3rr0cks",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -56,7 +56,7 @@ app.post('/login', (req, res) => {
                 // Dummy example: Check if the provided password matches the stored password
                 if (username === "admin" && password === "admin") {
                     // res.send('Login successful!');
-                    res.redirect("/displayAllData");
+                    res.redirect("/displayData");
                 }
                 else if (password === storedPassword) {
                     // res.send('Login successful!');
@@ -135,7 +135,7 @@ app.get('/displayData', (req, res) => {
          // Organization Types subquery
          knex.raw(`
              (
-                 SELECT STRING_AGG( "Organization_Info"."Organization_Type", ', ') 
+                 SELECT STRING_AGG(DISTINCT "Organization_Info"."Organization_Type", ', ') 
                  FROM "User_Engagement_Info" 
                  JOIN "Organization_Info" ON "User_Engagement_Info"."Organization_Num" = "Organization_Info"."Organization_Num" 
                  WHERE "User_Engagement_Info"."User_Id" = "Survey_Responses"."User_Id"
@@ -354,9 +354,11 @@ app.get("/addResponse", (req, res) => {
 // Define routes
 app.post("/addResponse", async (req, res) => {
     try {
+        const currentDate = new Date();
+        const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
       // Insert data into Survey_Responses table
     await knex("Survey_Responses").insert({
-        Timestamp: knex.fn.now(),
+        Timestamp: formattedTimestamp,
         Age: req.body.age,
         Gender: req.body.gender,
         Relationship_Status: req.body.relationship,
