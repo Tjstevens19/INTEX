@@ -11067,6 +11067,9 @@ input[type="date"]::-webkit-inner-spin-button {
       border: 2px solid #0666a3; /* Set the border color to your preference */
       padding: 10px; /* Add some padding to the section */
       margin-bottom: 20px; /* Adjust the margin as needed */
+      font-weight: bold;
+      background-color: #add8e6;
+      width: 100%;
     }
     th, td {
       width: 15%;
@@ -11152,3 +11155,50 @@ input[type="date"]::-webkit-inner-spin-button {
             width: 250px;
         }
  
+
+/*        TABLE CSS */
+
+.content-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+  background-color: #008B8B;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+  padding: 12px 15px;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:hover {
+  background-color: #e0f7fa; /* Change the background color on hover */
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.content-table tbody tr.active-row {
+  font-weight: bold;
+  color: black;
+}
