@@ -182,7 +182,7 @@ app.post('/modifyAccount', (req, res) => {
             res.send(`
                 <script>
                     alert('Account modified successfully');
-                    window.location.href = '/dashboard'; // Adjust the route as needed
+                    window.location.href = '/login';
                 </script>
             `);
         })
