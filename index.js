@@ -293,12 +293,20 @@ app.get("/addResponse", (req, res) => {
 // });
 
 app.post("/addResponse", (req, res) => {
-    knex("Survey_Responses").insert({platforms: req.body.platforms, lead_singer: req.body.lead_singer.toUpperCase()})
-    
-
-    .then(mybands => {
-        res.redirect("/");
-    })
+    knex("Survey_Responses")
+        .insert({
+            platforms: req.body.platforms,
+            lead_singer: req.body.lead_singer.toUpperCase()
+        })
+        .then(() => {
+            // Redirect to the displayData page after successful insertion
+            res.redirect("/displayData");
+        })
+        .catch(err => {
+            // Handle the case where insertion failed
+            console.log(err);
+            res.status(500).json({ err });
+        });
 });
 
 // app.post("/deleteBand/:id", (req, res) => {
