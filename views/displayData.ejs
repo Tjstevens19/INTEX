@@ -105,6 +105,7 @@
             </thead>
         <!-- </div> -->
         <tbody>
+            
             <% for (let iCount = 0; iCount < SurveyResponses.length; iCount++){ %>
                 <tr class="active-row">
                     <td><%= SurveyResponses[iCount].Timestamp %></td>
@@ -118,31 +119,31 @@
                     <td><%= SurveyResponses[iCount].Organization_Type %></td> -->
                     <td>
                         <%
-  if (SurveyResponses[iCount].Organization_Types) {
-    // Split the string into an array of words and clean each word
-    const organizationTypesArray = SurveyResponses[iCount].Organization_Types.split(/\s+/).map(word => word.trim().toLowerCase());
+                                if (SurveyResponses[iCount].Organization_Types) {
+                                    // Split the string into an array of words and clean each word
+                                    const organizationTypesArray = SurveyResponses[iCount].Organization_Types.split(/\s+/).map(word => word.trim());
 
-    console.log('Original Array:', organizationTypesArray);
+                                    console.log('Original Array:', organizationTypesArray);
 
-    // Remove duplicates using a Set
-    const uniqueOrganizationTypes = [...new Set(organizationTypesArray)];
+                                    // Remove duplicates using a Set
+                                    const uniqueOrganizationTypes = [...new Set(organizationTypesArray)];
 
-    console.log('Unique Array:', uniqueOrganizationTypes);
+                                    console.log('Unique Array:', uniqueOrganizationTypes);
 
-    // Join the unique words back into a string
-    const uniqueOrganizationTypesString = uniqueOrganizationTypes.join(' ');
+                                    // Join the unique words back into a string
+                                    const uniqueOrganizationTypesString = uniqueOrganizationTypes.join(' ');
 
-    console.log('Final String:', uniqueOrganizationTypesString);
+                                    console.log('Final String:', uniqueOrganizationTypesString);
 
-    %>
-    <%= uniqueOrganizationTypesString %>
-<%
-  } else {
-    %>
-    N/A <!-- Or any default value you want to show if there are no organization types -->
-<%
-  }
-%>
+                                    %>
+                                    <%= uniqueOrganizationTypesString %>
+                                <%
+                                } else {
+                                    %>
+                                    N/A <!-- Or any default value you want to show if there are no organization types -->
+                                <%
+                                }
+                            %>
                     </td>
                     <td><%= SurveyResponses[iCount].Social_Media_User %></td>
                     
@@ -174,51 +175,69 @@
     <!-- Script to make table more interactive -->
     <script>
         function filterTable() {
-            var table, rows, i, cells, j, cell, txtValue;
-            var filters = {};
+    var table, rows, i, cells, j, cell, txtValue;
+    var filters = {};
 
-            // Get filter values from input fields
-            filters['User ID'] = document.getElementById('filterUser').value.toLowerCase();
-            filters['Age'] = document.getElementById('filterAge').value.toLowerCase();
-            filters['Gender'] = document.getElementById('filterGender').value.toLowerCase();
-            filters['Relationship Status'] = document.getElementById('filterRelationshipStatus').value.toLowerCase();
-            filters['Location'] = document.getElementById('filterLocation').value.toLowerCase();
-            filters['Occupation'] = document.getElementById('filterOccupation').value.toLowerCase();
-        // Get a reference to the table and its rows
-            table = document.querySelector('.content-table');
-            rows = table.getElementsByTagName('tr');
+    // Get filter values from input fields
+    filters['User ID'] = document.getElementById('filterUser').value.toLowerCase();
+    filters['Age'] = document.getElementById('filterAge').value.toLowerCase();
+    filters['Gender'] = document.getElementById('filterGender').value.toLowerCase();
+    filters['Relationship Status'] = document.getElementById('filterRelationshipStatus').value.toLowerCase();
+    filters['Location'] = document.getElementById('filterLocation').value.toLowerCase();
+    filters['Occupation'] = document.getElementById('filterOccupation').value.toLowerCase();
 
-            for (i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
-                cells = rows[i].getElementsByTagName('td');
-                var displayRow = true;
-            // Loop through each cell in the current row
-                for (j = 0; j < cells.length; j++) {
-                    cell = cells[j];
-                    txtValue = cell.textContent || cell.innerText;
+    // Get a reference to the table and its rows
+    table = document.querySelector('.content-table');
+    rows = table.getElementsByTagName('tr');
 
-                    // Check if the current cell matches the corresponding filter
-                    var headerText = table.rows[0].cells[j].textContent.trim();
-                    var filterValue = filters[headerText];
-                // Handle special case for the 'Gender' filter using a dropdown
-                    if (filterValue && headerText === 'Gender') {
-                        // Handle gender filter with dropdown
-                        var cellGender = txtValue.toLowerCase();
-                        if (filterValue !== 'all' && cellGender !== filterValue) {
-                            displayRow = false;
-                            break;
-                        }
-                    } else if (filterValue && txtValue.toLowerCase().indexOf(filterValue) === -1) {
-                        displayRow = false;
-                        break;
-                    }
+    for (i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+        cells = rows[i].getElementsByTagName('td');
+        var displayRow = true;
+
+        // Loop through each cell in the current row
+        for (j = 0; j < cells.length; j++) {
+            cell = cells[j];
+            txtValue = cell.textContent || cell.innerText;
+
+            // Check if the current cell matches the corresponding filter
+            var headerText = table.rows[0].cells[j].textContent.trim();
+            var filterValue = filters[headerText];
+
+            // Handle special case for the 'Gender' filter using a dropdown
+            if (filterValue && headerText === 'Gender') {
+                // Handle gender filter with dropdown
+                var cellGender = txtValue.toLowerCase();
+                if (filterValue !== 'all' && cellGender !== filterValue) {
+                    displayRow = false;
+                    break;
                 }
-
-                // Toggle the row's display based on filter match
-            // If the filter value is set and the cell does not contain the filter value, hide the row
-
-                rows[i].style.display = displayRow ? '' : 'none';
+            } else if (filterValue && headerText === 'User ID') {
+                // Check if the text content is an exact match to the filter value
+                if (txtValue.toLowerCase() !== filterValue) {
+                    displayRow = false;
+                    break;
+                }
+            } else if (filterValue && headerText === 'Age') {
+                // Check if the text content is an exact match to the filter value
+                if (txtValue.toLowerCase() !== filterValue) {
+                    displayRow = false;
+                    break;
+                }
+            } else if (filterValue && txtValue.toLowerCase().indexOf(filterValue) === -1) {
+                displayRow = false;
+                break;
             }
         }
+
+        // Toggle the row's display based on filter match
+        // If the filter value is set and the cell does not contain the filter value, hide the row
+        rows[i].style.display = displayRow ? '' : 'none';
+    }
+}
+        //FOr the ID number 
+        
+// Loop through each cell in the current row
+
     </script>
 
     <br><br>

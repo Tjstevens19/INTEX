@@ -135,7 +135,7 @@ app.get('/displayData', (req, res) => {
          // Organization Types subquery
          knex.raw(`
              (
-                 SELECT STRING_AGG( "Organization_Info"."Organization_Type", ', ') 
+                 SELECT STRING_AGG(DISTINCT "Organization_Info"."Organization_Type", ', ') 
                  FROM "User_Engagement_Info" 
                  JOIN "Organization_Info" ON "User_Engagement_Info"."Organization_Num" = "Organization_Info"."Organization_Num" 
                  WHERE "User_Engagement_Info"."User_Id" = "Survey_Responses"."User_Id"
