@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "flexflex" || "admin",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -245,14 +245,71 @@ app.get("/addResponse", (req, res) => {
 //     })
 // });
 
-app.post("/addResponse", (req, res) => {
-    knex("Survey_Responses").insert({platforms: req.body.platforms, lead_singer: req.body.lead_singer.toUpperCase()})
+// app.post("/addResponse", (req, res) => {
+//     knex("Survey_Responses").insert({platforms: req.body.platforms, lead_singer: req.body.lead_singer.toUpperCase()})
     
 
-    .then(mybands => {
-        res.redirect("/");
-    })
-});
+//     .then(mybands => {
+//         res.redirect("/");
+//     })
+// });
+
+// Define routes
+app.post("/addResponse", async (req, res) => {
+    try {
+      // Insert data into Survey_Responses table
+    await db("Survey_Responses").insert({
+        Age: req.body.age,
+        Gender: req.body.gender,
+        Relationship_Status: req.body.relationship,
+        Location: req.body.location,
+        Occupation: req.body.Occupation,
+        Social_Media_User: req.body.usage,
+        Avg_Social_Media_Hours: req.body.AvgTime,
+        Purposeless_Usage_Frequency: req.body.purposeless,
+        Distracted_Use_Frequency: req.body.distracted,
+        Restless_Without_Social_Media_Level: req.body.restless,
+        General_Distraction_Level: req.body.eDistract,
+        General_Worry_Level: req.body.worried,
+        General_Difficulty_Concentrating_Level: req.body.dConcentrate,
+        Comparison_To_Others_Frequency: req.body.comparison,
+        Feeling_About_Comparison_Level: req.body.comparisonFeeling,
+        Seeking_Validation_Frequency: req.body.validation,
+        Depression_Frequency: req.body.depressed,
+        Interest_Fluctuation_Frequency: req.body.fluctuate,
+        Sleep_Issue_Frequency: req.body.sleepIssues,
+        Comments: req.body.Comments
+        // Add other fields as needed
+      });
+  
+      // Insert data into User_Engagement_Info table
+    //   await db("User_Engagement_Info").insert({
+    //     response_id: responseId,
+    //     social_media_usage: req.body.usage,
+    //     average_time_spent: req.body.AvgTime,
+    //     // Add other fields as needed
+    //   });
+  
+    //   // Insert data into a separate table for platforms (assuming a One-to-Many relationship)
+    //   const platforms = req.body.platforms.map(platformId => ({
+    //     response_id: responseId,
+    //     platform_id: platformId,
+    //   }));
+    //   await db("User_Engagement_Info").insert(platforms);
+  
+    //   // Insert data into a separate table for organizations (assuming a One-to-Many relationship)
+    //   const organizations = req.body.organizations.map(orgName => ({
+    //     response_id: responseId,
+    //     organization_name: orgName,
+    //   }));
+    //   await db("User_Organizations").insert(organizations);
+  
+      res.redirect("/");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
 
 // app.post("/deleteBand/:id", (req, res) => {
 //     knex("bands").where("band_id", req.params.id).del().then(mybands => {
