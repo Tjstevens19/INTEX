@@ -348,9 +348,11 @@ app.get("/addResponse", (req, res) => {
 // Define routes
 app.post("/addResponse", async (req, res) => {
     try {
+        const currentDate = new Date();
+        const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
       // Insert data into Survey_Responses table
     await knex("Survey_Responses").insert({
-        Timestamp: knex.fn.now(),
+        Timestamp: formattedTimestamp,
         Age: req.body.age,
         Gender: req.body.gender,
         Relationship_Status: req.body.relationship,
