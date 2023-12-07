@@ -4,49 +4,179 @@
         <meta charset="UTF-8">   
         <meta http-equiv="X-UA-Compatible" content="IE=edge">   
         <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-        <link rel="stylesheet" href="https://cdnjs.cloudfare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />   
-        <title>Document</title>   
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudfare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />    -->
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <link href="css/styles.css" rel="stylesheet">
+        <title>Data</title>   
     </head>   
     <body>   
-        <table class="table">   
+         <!-- Navigation-->
+         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+            <div class="container px-5">
+                <a class="navbar-brand" href="#page-top">Mindful Media Initiative</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav><br><br><br>
+    <!-- FILTERS BY COLUMN -->
+    <div class="q">
+        <label for="filterUser">User ID:</label>
+        <input type="text" id="filterUser" oninput="filterTable()">
+    
+        <label for="filterAge">Age:</label>
+        <input type="text" id="filterAge" oninput="filterTable()">
+    
+        <label for="filterGender">Gender:</label>
+    <select id="filterGender" onchange="filterTable()">
+        <option value="">All</option>
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+        <option value="other">Other</option>
+    </select>
+
+    <label for="filterLocation">Location:</label>
+    <select id="filterLocation" onchange="filterTable()">
+        <option value="">All</option>
+        <option value="Plainsville">Plainsville</option>
+        <option value="Provo">Provo</option>
+       
+    </select>
+
+    <label for="filterRelationshipStatus">Relationship:</label>
+    <select id="filterRelationshipStatus" onchange="filterTable()">
+        <option value="">All</option>
+        <option value="Single">Single</option>
+        <option value="In Relationship">In a Relationship</option>
+        <option value="Married">Married</option>
+        <option value="Divorced">Divorced</option>
+    </select>
+     
+    <label for="filterOccupation">Occupation:</label>
+    <select id="filterOccupation" onchange="filterTable()">
+        <option value="">All</option>
+        <option value="University Student">University Student</option>
+        <option value="Salaried Worker">Salaried Worker</option>
+        <option value="School Student">School Student</option>
+        <option value="Retired">Retired</option>
+    </select>
+    
+</div>
+        <!-- <label for="filterLocation">Filter Location:</label>
+        <input type="text" id="filterLocation" oninput="filterTable()"> -->
+        <table class="content-table">   
             <thead>   
                 <tr>
-                    <th style="text-align:left">Band Name</th>
-                    <th style="text-align:left">Lead Singer</th>
-                    <th style="text-align:left">Music Genre</th>
-                    <th style="text-align:left">Still Rockin'</th> 
-                    <th style="text-align:left">Rating</th> 
+                    <th style="text-align:left">User ID</th>
+                    <th style="text-align:left">Age</th>
+                    <th style="text-align:left">Gender</th>
+                    <th style="text-align:left">Location</th>
+                    <th style="text-align:left">Relationship Status</th> 
+                    <th style="text-align:left">Occupation</th> 
+                    <th style="text-align:left">Organization Number</th> 
+                    <th style="text-align:left">Organization Type</th> 
+                    <th style="text-align:left">Social Media User</th> 
+                    <th style="text-align:left">Platform Number</th> 
+                    <th style="text-align:left">Platform Name</th> 
+                    <th style="text-align:left">Average Social Media Hours Day</th> 
+                    <th style="text-align:left">Purposeless Usage Frequency</th> 
+                    <th style="text-align:left">Distracted Use Frequency</th> 
+                    <th style="text-align:left">Restless Without Social Media Level</th> 
+                    <th style="text-align:left">General Distraction Level</th> 
+                    <th style="text-align:left">General Worry Level</th> 
+                    <th style="text-align:left">General Difficulty Concntrating Level</th> 
+                    <th style="text-align:left">Comparison to Others Frequency</th> 
+                    <th style="text-align:left">Feeling About Comparison Level</th> 
+                    <th style="text-align:left">Seeking Validation Frequency</th>
+                    <th style="text-align:left">Depression Frequency</th> 
+                    <th style="text-align:left">Interest Fluctuation Frequency</th>  
+                    <th style="text-align:left">Sleep Issue Frequency</th> 
+                    <th style="text-align:left">Comments</th> 
                     <th></th>
                 </tr> 
             </thead>
-            <tbody>
-                <% for (let iCount = 0; iCount < mybands.length; iCount++) { %>
-                    <tr>
-                        <td><%= mybands[iCount].band_name %></td>
-                        <td><%= mybands[iCount].lead_singer %></td>   
-                        <td><%= mybands[iCount].music_genre %></td>
-                        <td><%= mybands[iCount].still_rocking %></td> 
-                        <td><%= mybands[iCount].rating %></td>                                                                  
-                        <td>
-                            <form action="/deleteBand/<%= mybands[iCount].band_id %>" method="POST">
-                                <input type="submit" name="Delete" value="Delete" />
-                            </form>
-                        </td>                        
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-        <br><br>
-        <form action="/findRecord" method="GET">
-            <button type="submit">Search</button>
-        </form>
-        <br>
-        <form action="/addBand" method="GET">
-            <button type="submit">Add Band</button>
-        </form>
-        <br>
-        <form action="/deleteAllBands" method="POST">
-            <button type="submit">Delete All Bands</button>
-        </form>
+        <!-- </div> -->
+        <tbody>
+            <% for (let iCount = 0; iCount < SurveyResponses.length; iCount++){ %>
+                <tr class="active-row">
+                    <td><%= SurveyResponses[iCount].User_Id %></td>
+                    <td><%= SurveyResponses[iCount].Age %></td>   
+                    <td><%= SurveyResponses[iCount].Gender %></td>
+                    <td><%= SurveyResponses[iCount].Location %></td> 
+                    <td><%= SurveyResponses[iCount].Relationship_Status %></td>
+                    <td><%= SurveyResponses[iCount].Occupation %></td>   
+                    <td><%= SurveyResponses[iCount].Social_Media_User %></td>
+                    <td><%= SurveyResponses[iCount].Avg_Social_Media_Hours_Daily %></td>
+                    <td><%= SurveyResponses[iCount].Purposeless_Usage_Frequency %></td> 
+                    <td><%= SurveyResponses[iCount].Distracted_Use_Frequency %></td> 
+                    <td><%= SurveyResponses[iCount].Restless_Without_Social_Media_Level %></td>
+                    <td><%= SurveyResponses[iCount].General_Distraction_Level %></td>   
+                    <td><%= SurveyResponses[iCount].General_Worry_Level %></td>
+                    <td><%= SurveyResponses[iCount].General_Difficulty_Concentrating_Level %></td> 
+                    <td><%= SurveyResponses[iCount].Comparison_To_Others_Frequency %></td> 
+                    <td><%= SurveyResponses[iCount].Feeling_About_Comparison_Level %></td>
+                    <td><%= SurveyResponses[iCount].Seeking_Validation_Frequency %></td>   
+                    <td><%= SurveyResponses[iCount].Depression_Frequency %></td>
+                    <td><%= SurveyResponses[iCount].Interest_Fluctuation_Frequency %></td> 
+                    <td><%= SurveyResponses[iCount].Sleep_Issue_Frequency %></td> 
+                    <td><%= SurveyResponses[iCount].Comments %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <!-- Script to make table more interactive -->
+    <script>
+        function filterTable() {
+            var table, rows, i, cells, j, cell, txtValue;
+            var filters = {};
+
+            // Get filter values from input fields
+            filters['User ID'] = document.getElementById('filterUser').value.toLowerCase();
+            filters['Age'] = document.getElementById('filterAge').value.toLowerCase();
+            filters['Gender'] = document.getElementById('filterGender').value.toLowerCase();
+            filters['Relationship Status'] = document.getElementById('filterRelationshipStatus').value.toLowerCase();
+            filters['Location'] = document.getElementById('filterLocation').value.toLowerCase();
+            filters['Occupation'] = document.getElementById('filterOccupation').value.toLowerCase();
+
+            table = document.querySelector('.content-table');
+            rows = table.getElementsByTagName('tr');
+
+            for (i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+                cells = rows[i].getElementsByTagName('td');
+                var displayRow = true;
+
+                for (j = 0; j < cells.length; j++) {
+                    cell = cells[j];
+                    txtValue = cell.textContent || cell.innerText;
+
+                    // Check if the current cell matches the corresponding filter
+                    var headerText = table.rows[0].cells[j].textContent.trim();
+                    var filterValue = filters[headerText];
+
+                    if (filterValue && headerText === 'Gender') {
+                        // Handle gender filter with dropdown
+                        var cellGender = txtValue.toLowerCase();
+                        if (filterValue !== 'all' && cellGender !== filterValue) {
+                            displayRow = false;
+                            break;
+                        }
+                    } else if (filterValue && txtValue.toLowerCase().indexOf(filterValue) === -1) {
+                        displayRow = false;
+                        break;
+                    }
+                }
+
+                // Toggle the row's display based on filter match
+                rows[i].style.display = displayRow ? '' : 'none';
+            }
+        }
+    </script>
+
+    <br><br>
     </body>
 </html>    
