@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "flexflex" || "admin",
+        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "admin" || "flexflex",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -39,6 +39,7 @@ app.get("/", (req, res) => {
 app.get('/login', (req, res) => {
     res.render('login');
 });
+
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
@@ -82,7 +83,53 @@ app.post('/login', (req, res) => {
             res.status(500).json({ err });
         });
 });
+app.get('/displayData', (req, res) => {
+        knex.select("User_Id", 
+                "Timestamp", 
+                "Age",
+                "Gender",
+                "Location",
+                "Relationship_Status",
+                "Social_Media_User", 
+                "Occupation",
+                "Avg_Social_Media_Hours_Daily",
+                "Purposeless_Usage_Frequency",
+                "Distracted_Use_Frequency",
+                "Restless_Without_Social_Media_Level", 
+                "General_Distraction_Level",
+                "General_Worry_Level",
+                "General_Difficulty_Concentrating_Level",
+                "Comparison_To_Others_Frequency",
+                "Feeling_About_Comparison_Level",
+                "Seeking_Validation_Frequency", 
+                "Depression_Frequency",
+                "Interest_Fluctuation_Frequency",
+                "Sleep_Issue_Frequency",
+                "Comments",
+                ).from('Survey_Responses').then(responses => {
+        res.render("displayData", {SurveyResponses: responses});
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({err});
+    });
 
+});
+
+//  app.get("/displayData", (req, res) => {
+//     res.render("displayData");
+
+    // knex.select("band_id", 
+    //             "band_name", 
+    //             "lead_singer",
+    //             "music_genre",
+    //             "still_rocking",
+    //             "rating").from('bands').then(bands => {
+        // res.render("displayBand", {mybands: bands});
+    // }).catch(err => {
+    //     console.log(err);
+    //     res.status(500).json({err});
+    // });
+// });
 
 app.get('/createAccount', (req, res) => {
     res.render('createUser');
@@ -304,7 +351,7 @@ app.post("/addResponse", async (req, res) => {
     //   }));
     //   await db("User_Organizations").insert(organizations);
   
-      res.redirect("/");
+      res.redirect("/displayData");
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
