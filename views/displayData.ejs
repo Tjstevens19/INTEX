@@ -72,6 +72,7 @@
         <table class="content-table">   
             <thead>   
                 <tr>
+                    <th style="text-align:left">Timestamp</th>
                     <th style="text-align:left">User ID</th>
                     <th style="text-align:left">Timestamp</th>
                     <th style="text-align:left">Age</th>
@@ -79,7 +80,13 @@
                     <th style="text-align:left">Location</th>
                     <th style="text-align:left">Relationship Status</th> 
                     <th style="text-align:left">Occupation</th> 
+                    <!-- <th style="text-align:left">Organization Number</th> 
+                    <th style="text-align:left">Organization Type</th>  -->
+                    <th style="text-align:left">Organization Types</th>
                     <th style="text-align:left">Social Media User</th> 
+                    <!-- <th style="text-align:left">Platform Number</th> 
+                    <th style="text-align:left">Platform Name</th>  -->
+                    <th style="text-align:left">Platform Names</th> <!--Platform names for subquary-->
                     <th style="text-align:left">Average Social Media Hours Day</th> 
                     <th style="text-align:left">Purposeless Usage Frequency</th> 
                     <th style="text-align:left">Distracted Use Frequency</th> 
@@ -105,6 +112,7 @@
         <tbody>
             <% for (let iCount = 0; iCount < SurveyResponses.length; iCount++){ %>
                 <tr class="active-row">
+                    <td><%= SurveyResponses[iCount].Timestamp %></td>
                     <td><%= SurveyResponses[iCount].User_Id %></td>
                     <td><%= SurveyResponses[iCount].Timestamp.toLocaleString() %></td>
                     <td><%= SurveyResponses[iCount].Age %></td>   
@@ -112,7 +120,45 @@
                     <td><%= SurveyResponses[iCount].Location %></td> 
                     <td><%= SurveyResponses[iCount].Relationship_Status %></td>
                     <td><%= SurveyResponses[iCount].Occupation %></td>   
+                    <!-- <td><%= SurveyResponses[iCount].Organization_Num %></td>
+                    <td><%= SurveyResponses[iCount].Organization_Type %></td> -->
+                    <td>
+                        <%
+  if (SurveyResponses[iCount].Organization_Types) {
+    // Split the string into an array of words and clean each word
+    const organizationTypesArray = SurveyResponses[iCount].Organization_Types.split(/\s+/).map(word => word.trim().toLowerCase());
+
+    console.log('Original Array:', organizationTypesArray);
+
+    // Remove duplicates using a Set
+    const uniqueOrganizationTypes = [...new Set(organizationTypesArray)];
+
+    console.log('Unique Array:', uniqueOrganizationTypes);
+
+    // Join the unique words back into a string
+    const uniqueOrganizationTypesString = uniqueOrganizationTypes.join(' ');
+
+    console.log('Final String:', uniqueOrganizationTypesString);
+
+    %>
+    <%= uniqueOrganizationTypesString %>
+<%
+  } else {
+    %>
+    N/A <!-- Or any default value you want to show if there are no organization types -->
+<%
+  }
+%>
+                    </td>
                     <td><%= SurveyResponses[iCount].Social_Media_User %></td>
+                    
+                    <td>
+                        <% if (SurveyResponses[iCount].Platform_Names) { %>
+                            <%= SurveyResponses[iCount].Platform_Names %>
+                        <% } else { %>
+                            N/A <!-- Or any default value you want to show if there are no platform names -->
+                        <% } %>
+                    </td>
                     <td><%= SurveyResponses[iCount].Avg_Social_Media_Hours_Daily %></td>
                     <td><%= SurveyResponses[iCount].Purposeless_Usage_Frequency %></td> 
                     <td><%= SurveyResponses[iCount].Distracted_Use_Frequency %></td> 
@@ -144,14 +190,14 @@
             filters['Relationship Status'] = document.getElementById('filterRelationshipStatus').value.toLowerCase();
             filters['Location'] = document.getElementById('filterLocation').value.toLowerCase();
             filters['Occupation'] = document.getElementById('filterOccupation').value.toLowerCase();
-
+        // Get a reference to the table and its rows
             table = document.querySelector('.content-table');
             rows = table.getElementsByTagName('tr');
 
             for (i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
                 cells = rows[i].getElementsByTagName('td');
                 var displayRow = true;
-
+            // Loop through each cell in the current row
                 for (j = 0; j < cells.length; j++) {
                     cell = cells[j];
                     txtValue = cell.textContent || cell.innerText;
@@ -159,7 +205,7 @@
                     // Check if the current cell matches the corresponding filter
                     var headerText = table.rows[0].cells[j].textContent.trim();
                     var filterValue = filters[headerText];
-
+                // Handle special case for the 'Gender' filter using a dropdown
                     if (filterValue && headerText === 'Gender') {
                         // Handle gender filter with dropdown
                         var cellGender = txtValue.toLowerCase();
@@ -174,6 +220,8 @@
                 }
 
                 // Toggle the row's display based on filter match
+            // If the filter value is set and the cell does not contain the filter value, hide the row
+
                 rows[i].style.display = displayRow ? '' : 'none';
             }
         }
