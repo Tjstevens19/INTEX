@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "admin" || "flexflex",
+        password : process.env.RDS_PASSWORD || "flexflex" || "admin" || "S0cc3rr0cks",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -349,14 +349,15 @@ app.get("/addResponse", (req, res) => {
 app.post("/addResponse", async (req, res) => {
     try {
       // Insert data into Survey_Responses table
-    await db("Survey_Responses").insert({
+    await knex("Survey_Responses").insert({
+        Timestamp: knex.fn.now(),
         Age: req.body.age,
         Gender: req.body.gender,
         Relationship_Status: req.body.relationship,
         Location: req.body.location,
         Occupation: req.body.Occupation,
         Social_Media_User: req.body.usage,
-        Avg_Social_Media_Hours: req.body.AvgTime,
+        Avg_Social_Media_Hours_Daily: req.body.AvgTime,
         Purposeless_Usage_Frequency: req.body.purposeless,
         Distracted_Use_Frequency: req.body.distracted,
         Restless_Without_Social_Media_Level: req.body.restless,

@@ -117,11 +117,32 @@
                     <!-- <td><%= SurveyResponses[iCount].Organization_Num %></td>
                     <td><%= SurveyResponses[iCount].Organization_Type %></td> -->
                     <td>
-                        <% if (SurveyResponses[iCount].Organization_Types) { %>
-                            <%= SurveyResponses[iCount].Organization_Types %>
-                        <% } else { %>
-                            N/A <!-- Or any default value you want to show if there are no organization types -->
-                        <% } %>
+                        <%
+  if (SurveyResponses[iCount].Organization_Types) {
+    // Split the string into an array of words and clean each word
+    const organizationTypesArray = SurveyResponses[iCount].Organization_Types.split(/\s+/).map(word => word.trim().toLowerCase());
+
+    console.log('Original Array:', organizationTypesArray);
+
+    // Remove duplicates using a Set
+    const uniqueOrganizationTypes = [...new Set(organizationTypesArray)];
+
+    console.log('Unique Array:', uniqueOrganizationTypes);
+
+    // Join the unique words back into a string
+    const uniqueOrganizationTypesString = uniqueOrganizationTypes.join(' ');
+
+    console.log('Final String:', uniqueOrganizationTypesString);
+
+    %>
+    <%= uniqueOrganizationTypesString %>
+<%
+  } else {
+    %>
+    N/A <!-- Or any default value you want to show if there are no organization types -->
+<%
+  }
+%>
                     </td>
                     <td><%= SurveyResponses[iCount].Social_Media_User %></td>
                     
