@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "admin",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -147,39 +147,45 @@ app.get('/modifyAccount', (req, res) => {
 });
 
 app.post('/modifyAccount', (req, res) => {
-    const { user_id, newUsername, newPassword } = req.body;
+    const { oldUsername, newUsername, newPassword } = req.body;
 
-    knex("users")
-        .where("user_id", parseInt(user_id))
-        .update({
-            user_name: newUsername,
-            password: newPassword,
-        })
-        .returning("*")  // Retrieve the updated user data
-        .then(updatedUsers => {
-            if (updatedUsers.length === 0) {
-                // User not found, handle accordingly (e.g., display an error message)
+    knex
+        .select("user_name")
+        .from("users")
+        .where("user_name", oldUsername)
+        .then(users => {
+            if (users.length === 0) {
+                // oldUsername doesn't exist in the database
                 res.send(`
                     <script>
-                        alert('User not found. Unable to modify account.');
-                        window.location.href = '/displayData';
+                        alert('User not found. Please check the old username');
+                        window.location.href = '/modifyAccount';
                     </script>
                 `);
             } else {
-                // Redirect after successful modification with a success message
+                // Update the user's information
+                return knex('users')
+                  .where('user_name', oldUsername)
+                  .update({
+                    user_name: newUsername,
+                    password: newPassword,
+                  });
+              }
+            })
+            .then(() => {
                 res.send(`
                     <script>
-                        alert('User updated successfully.');
+                        alert('Account modified successfully');
                         window.location.href = '/displayData';
                     </script>
                 `);
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ err });
-        });
-});
+                
+              })
+              .catch((error) => {
+                console.error(error);
+                res.status(500).send('Internal Server Error');
+              });
+          });
 
 
 
