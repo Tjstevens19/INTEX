@@ -86,27 +86,27 @@ app.post('/login', (req, res) => {
 app.get('/displayData', (req, res) => {
 
         knex.select("Survey_Responses.User_Id", 
-                "Survey_Responses.Timestamp", 
-                "Survey_Responses.Age",
-                "Survey_Responses.Gender",
-                "Survey_Responses.Location",
-                "Survey_Responses.Relationship_Status",
-                "Survey_Responses.Social_Media_User", 
-                "Survey_Responses.Occupation",
-                "Survey_Responses.Avg_Social_Media_Hours_Daily",
-                "Survey_Responses.Purposeless_Usage_Frequency",
-                "Survey_Responses.Distracted_Use_Frequency",
-                "Survey_Responses.Restless_Without_Social_Media_Level", 
-                "Survey_Responses.General_Distraction_Level",
-                "Survey_Responses.General_Worry_Level",
-                "Survey_Responses.General_Difficulty_Concentrating_Level",
-                "Survey_Responses.Comparison_To_Others_Frequency",
-                "Survey_Responses.Feeling_About_Comparison_Level",
-                "Survey_Responses.Seeking_Validation_Frequency", 
-                "Survey_Responses.Depression_Frequency",
-                "Survey_Responses.Interest_Fluctuation_Frequency",
-                "Survey_Responses.Sleep_Issue_Frequency",
-                "Survey_Responses.Comments",
+                "Timestamp", 
+                "Age",
+                "Gender",
+                "Location",
+                "Relationship_Status",
+                "Social_Media_User", 
+                "Occupation",
+                "Avg_Social_Media_Hours_Daily",
+                "Purposeless_Usage_Frequency",
+                "Distracted_Use_Frequency",
+                "Restless_Without_Social_Media_Level", 
+                "General_Distraction_Level",
+                "General_Worry_Level",
+                "General_Difficulty_Concentrating_Level",
+                "Comparison_To_Others_Frequency",
+                "Feeling_About_Comparison_Level",
+                "Seeking_Validation_Frequency", 
+                "Depression_Frequency",
+                "Interest_Fluctuation_Frequency",
+                "Sleep_Issue_Frequency",
+                "Comments",
                 "Organization_Info.Organization_Num",
                 "Organization_Info.Organization_Type" ,
                  "User_Engagement_Info.Platform_Num",
@@ -147,7 +147,7 @@ app.get('/displayData', (req, res) => {
                 .join('User_Engagement_Info', 'Survey_Responses.User_Id', '=', 'User_Engagement_Info.User_Id')
                 .join('Organization_Info', 'User_Engagement_Info.Organization_Num', '=', 'Organization_Info.Organization_Num')
                 .join('Platform_Info', 'User_Engagement_Info.Platform_Num', '=', 'Platform_Info.Platform_Num')
-                .orderBy('Survey_Responses.User_Id') // Order by Timestamp column
+                .orderBy('Survey_Responses.User_Id') // Order by User_Id column
                 .distinctOn('Survey_Responses.User_Id') // Use DISTINCT ON
                 .then(responses => {
                     res.render("displayData", { SurveyResponses: responses });
