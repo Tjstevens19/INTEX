@@ -25,7 +25,10 @@
         <div class="login-container">
             <h2>Modify Account</h2>
             <form action="/modifyAccount" method="post" class="lForm">
-                <input type="hidden" id="user_id" name="user_id" value="<%= users[0].user_id %>">
+                <div class="form-group">
+                    <label for="oldUsername">Old Username:</label>
+                    <input type="text" id="oldUsername" name="oldUsername" required>
+                </div>
                 <div class="form-group">
                     <label for="newUsername">New Username:</label>
                     <input type="text" id="newUsername" name="newUsername" required>

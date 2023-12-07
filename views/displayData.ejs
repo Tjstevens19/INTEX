@@ -109,7 +109,7 @@
             <% for (let iCount = 0; iCount < SurveyResponses.length; iCount++){ %>
                 <tr class="active-row">
                     <td><%= SurveyResponses[iCount].User_Id %></td>
-                    <td><%= SurveyResponses[iCount].Timestamp.toLocaleString() %></td>
+                    <td><%= SurveyResponses[iCount].Timestamp.toISOString().slice(0, 19).replace("T", " ") %></td>
                     <td><%= SurveyResponses[iCount].Age %></td>   
                     <td><%= SurveyResponses[iCount].Gender %></td>
                     <td><%= SurveyResponses[iCount].Location %></td> 
