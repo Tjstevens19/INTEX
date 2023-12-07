@@ -12,7 +12,7 @@
     </head>   
     <body>   
     <!-- <div class="q"> -->
-        <table class="table">   
+        <table>   
             <thead>   
                 <tr>
                     <th style="text-align:left">Age</th>
@@ -26,8 +26,8 @@
                     <th style="text-align:left">Platform Number</th> 
                     <th style="text-align:left">Platform Name</th> 
                     <th style="text-align:left">Average Social Media Hours Day</th> 
-                    <th style="text-align:left">Purposless Usage Frequency</th> 
-                    <th style="text-align:left">Dsitracted Use Frequency</th> 
+                    <th style="text-align:left">Purposeless Usage Frequency</th> 
+                    <th style="text-align:left">Distracted Use Frequency</th> 
                     <th style="text-align:left">Restless Without Social Media Level</th> 
                     <th style="text-align:left">General Distraction Level</th> 
                     <th style="text-align:left">General Worry Level</th> 
@@ -44,7 +44,7 @@
             </thead>
         <!-- </div> -->
         <tbody>
-            <% for (let iCount = 0; iCount < SurveyResponses.length; iCount++) { %>
+            <% for (let iCount = 0; iCount < SurveyResponses.length; iCount++){ %>
                 <tr>
                     <td><%= SurveyResponses[iCount].User_Id %></td>
                     <td><%= SurveyResponses[iCount].Age %></td>   
@@ -54,9 +54,9 @@
                     <td><%= SurveyResponses[iCount].Social_Media_User %></td>
                     <td><%= SurveyResponses[iCount].Occupation %></td>   
                     <td><%= SurveyResponses[iCount].Avg_Social_Media_Hours_Daily %></td>
-                    <td><%= SurveyResponses[iCount].Purposless_Usage_Frequancy %></td> 
+                    <td><%= SurveyResponses[iCount].Purposeless_Usage_Frequency %></td> 
                     <td><%= SurveyResponses[iCount].Distracted_Use_Frequency %></td> 
-                    <td><%= SurveyResponses[iCount].Restless_Without_Social_Media_Level %></td>
+                    <td><%= SurveyResponses[iCount].Restless_Without_Social Media_Level %></td>
                     <td><%= SurveyResponses[iCount].General_Distraction_Level %></td>   
                     <td><%= SurveyResponses[iCount].General_Worry_Level %></td>
                     <td><%= SurveyResponses[iCount].General_Difficulty_Concentrating_Level %></td> 
@@ -67,23 +67,10 @@
                     <td><%= SurveyResponses[iCount].Interest_Fluctuation_Frequency %></td> 
                     <td><%= SurveyResponses[iCount].Sleep_Issue_Frequency %></td> 
                     <td><%= SurveyResponses[iCount].Comments %></td>
-                                                                                   
-                    
                 </tr>
             <% } %>
         </tbody>
     </table>
     <br><br>
-    <form action="/findRecord" method="GET">
-        <button type="submit">Search</button>
-    </form>
-    <br>
-    <form action="/addBand" method="GET">
-        <button type="submit">Add Band</button>
-    </form>
-    <br>
-    <form action="/deleteAllBands" method="POST">
-        <button type="submit">Delete All Bands</button>
-    </form>
     </body>
 </html>    

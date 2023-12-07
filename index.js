@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "flexflex",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -93,9 +93,9 @@ app.get('/displayData', (req, res) => {
                 "Social_Media_User", 
                 "Occupation",
                 "Avg_Social_Media_Hours_Daily",
-                "Purposless_Usage_Frequancy",
+                "Purposeless_Usage_Frequency",
                 "Distracted_Use_Frequency",
-                "Restless_Without_Social_Media_Level", 
+                "Restless_Without_Social Media_Level", 
                 "General_Distraction_Level",
                 "General_Worry_Level",
                 "General_Difficulty_Concentrating_Level",
