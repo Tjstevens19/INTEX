@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "flexflex" || "admin" || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "admin" || "S0cc3rr0cks",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -56,7 +56,7 @@ app.post('/login', (req, res) => {
                 // Dummy example: Check if the provided password matches the stored password
                 if (username === "admin" && password === "admin") {
                     // res.send('Login successful!');
-                    res.redirect("/displayAllData");
+                    res.redirect("/displayData");
                 }
                 else if (password === storedPassword) {
                     // res.send('Login successful!');
