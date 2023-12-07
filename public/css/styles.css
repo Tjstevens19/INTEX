@@ -601,6 +601,8 @@ progress {
 .img-fluid {
   max-width: 80%;
   height: auto;
+  margin-bottom: auto;
+ 
 }
 
 .img-thumbnail {
@@ -8261,6 +8263,7 @@ textarea.form-control-lg {
 
 .rounded-5 {
   border-radius: var(--bs-border-radius-2xl) !important;
+  
 }
 
 .rounded-circle {
@@ -10857,10 +10860,10 @@ html {
 header.masthead {
   position: relative;
   overflow: hidden;
-  padding-top: calc((1080 / 1920) * 200% + 80px); /* Set padding-top based on video aspect ratio */
+  padding-top: calc((1080 / 1920) * 200% + 60px); /* Adjust padding-top based on video aspect ratio */
   padding-bottom: 50px;
   background: none;
-  
+  margin-top: 20px;
 }
 
 header.masthead video {
@@ -10870,8 +10873,12 @@ header.masthead video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1); /* Adjust the scale value to zoom out or in */
+  transform-origin: center;
   
 }
+
+
 header.masthead .masthead-content {
   z-index: 1;
   position: relative;
@@ -11195,7 +11202,8 @@ input[type="date"]::-webkit-inner-spin-button {
 }
 
 .content-table tbody tr:last-of-type {
-  border-bottom: 2px solid #009879;
+  /* border-bottom: 2px solid #009879; */
+  border-bottom: auto solid #009879;
 }
 
 .content-table tbody tr.active-row {

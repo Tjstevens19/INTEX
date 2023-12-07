@@ -86,41 +86,41 @@ app.post('/login', (req, res) => {
 app.get('/displayData', (req, res) => {
 
         knex.select("Survey_Responses.User_Id", 
-                "Survey_Responses.Timestamp", 
-                "Survey_Responses.Age",
-                "Survey_Responses.Gender",
-                "Survey_Responses.Location",
-                "Survey_Responses.Relationship_Status",
-                "Survey_Responses.Social_Media_User", 
-                "Survey_Responses.Occupation",
-                "Survey_Responses.Avg_Social_Media_Hours_Daily",
-                "Survey_Responses.Purposeless_Usage_Frequency",
-                "Survey_Responses.Distracted_Use_Frequency",
-                "Survey_Responses.Restless_Without_Social_Media_Level", 
-                "Survey_Responses.General_Distraction_Level",
-                "Survey_Responses.General_Worry_Level",
-                "Survey_Responses.General_Difficulty_Concentrating_Level",
-                "Survey_Responses.Comparison_To_Others_Frequency",
-                "Survey_Responses.Feeling_About_Comparison_Level",
-                "Survey_Responses.Seeking_Validation_Frequency", 
-                "Survey_Responses.Depression_Frequency",
-                "Survey_Responses.Interest_Fluctuation_Frequency",
-                "Survey_Responses.Sleep_Issue_Frequency",
-                "Survey_Responses.Comments",
+                "Timestamp", 
+                "Age",
+                "Gender",
+                "Location",
+                "Relationship_Status",
+                "Social_Media_User", 
+                "Occupation",
+                "Avg_Social_Media_Hours_Daily",
+                "Purposeless_Usage_Frequency",
+                "Distracted_Use_Frequency",
+                "Restless_Without_Social_Media_Level", 
+                "General_Distraction_Level",
+                "General_Worry_Level",
+                "General_Difficulty_Concentrating_Level",
+                "Comparison_To_Others_Frequency",
+                "Feeling_About_Comparison_Level",
+                "Seeking_Validation_Frequency", 
+                "Depression_Frequency",
+                "Interest_Fluctuation_Frequency",
+                "Sleep_Issue_Frequency",
+                "Comments",
                 "Organization_Info.Organization_Num",
                 "Organization_Info.Organization_Type" ,
                  "User_Engagement_Info.Platform_Num",
                  "Platform_Info.Platform_Name",
                  // Replace with the actual column name from UserInfo
                
-                 knex.raw(`
-                 (
-                     SELECT STRING_AGG(DISTINCT "Platform_Info"."Platform_Name", ', ') 
-                     FROM "User_Engagement_Info" 
-                     JOIN "Platform_Info" ON "User_Engagement_Info"."Platform_Num" = "Platform_Info"."Platform_Num" 
-                     WHERE "User_Engagement_Info"."User_Id" = "Survey_Responses"."User_Id"
-                 ) AS "Platform_Names"
-             `),
+            //      knex.raw(`
+            //      (
+            //          SELECT STRING_AGG(DISTINCT "Platform_Info"."Platform_Name", ', ') 
+            //          FROM "User_Engagement_Info" 
+            //          JOIN "Platform_Info" ON "User_Engagement_Info"."Platform_Num" = "Platform_Info"."Platform_Num" 
+            //          WHERE "User_Engagement_Info"."User_Id" = "Survey_Responses"."User_Id"
+            //      ) AS "Platform_Names"
+            //  `),
              // Organization Types subquery
              knex.raw(`
              (
@@ -346,33 +346,33 @@ app.get("/addResponse", (req, res) => {
 // });
 
 // Define routes
-app.post("/addResponse", async (req, res) => {
-    try {
-      // Insert data into Survey_Responses table
-    await knex("Survey_Responses").insert({
-        Timestamp: knex.fn.now(),
-        Age: req.body.age,
-        Gender: req.body.gender,
-        Relationship_Status: req.body.relationship,
-        Location: req.body.location,
-        Occupation: req.body.Occupation,
-        Social_Media_User: req.body.usage,
-        Avg_Social_Media_Hours_Daily: req.body.AvgTime,
-        Purposeless_Usage_Frequency: req.body.purposeless,
-        Distracted_Use_Frequency: req.body.distracted,
-        Restless_Without_Social_Media_Level: req.body.restless,
-        General_Distraction_Level: req.body.eDistract,
-        General_Worry_Level: req.body.worried,
-        General_Difficulty_Concentrating_Level: req.body.dConcentrate,
-        Comparison_To_Others_Frequency: req.body.comparison,
-        Feeling_About_Comparison_Level: req.body.comparisonFeeling,
-        Seeking_Validation_Frequency: req.body.validation,
-        Depression_Frequency: req.body.depressed,
-        Interest_Fluctuation_Frequency: req.body.fluctuate,
-        Sleep_Issue_Frequency: req.body.sleepIssues,
-        Comments: req.body.Comments
-        // Add other fields as needed
-      });
+// app.post("/addResponse", async (req, res) => {
+    // try {
+    //   // Insert data into Survey_Responses table
+    // await knex("Survey_Responses").insert({
+    //     Timestamp: knex.fn.now(),
+    //     Age: req.body.age,
+    //     Gender: req.body.gender,
+    //     Relationship_Status: req.body.relationship,
+    //     Location: req.body.location,
+    //     Occupation: req.body.Occupation,
+    //     Social_Media_User: req.body.usage,
+    //     Avg_Social_Media_Hours_Daily: req.body.AvgTime,
+    //     Purposeless_Usage_Frequency: req.body.purposeless,
+    //     Distracted_Use_Frequency: req.body.distracted,
+    //     Restless_Without_Social_Media_Level: req.body.restless,
+    //     General_Distraction_Level: req.body.eDistract,
+    //     General_Worry_Level: req.body.worried,
+    //     General_Difficulty_Concentrating_Level: req.body.dConcentrate,
+    //     Comparison_To_Others_Frequency: req.body.comparison,
+    //     Feeling_About_Comparison_Level: req.body.comparisonFeeling,
+    //     Seeking_Validation_Frequency: req.body.validation,
+    //     Depression_Frequency: req.body.depressed,
+    //     Interest_Fluctuation_Frequency: req.body.fluctuate,
+    //     Sleep_Issue_Frequency: req.body.sleepIssues,
+    //     Comments: req.body.Comments
+    //     // Add other fields as needed
+    //   });
   
       // Insert data into User_Engagement_Info table
     //   await db("User_Engagement_Info").insert({
@@ -395,13 +395,60 @@ app.post("/addResponse", async (req, res) => {
     //     organization_name: orgName,
     //   }));
     //   await db("User_Organizations").insert(organizations);
-  
-      res.redirect("/displayData");
+//       res.redirect("/displayData");
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).send("Internal Server Error");
+//     }
+//   });
+app.post("/addResponse", async (req, res) => {
+    try {
+        const currentDate = new Date();
+        const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
+        // Insert data into Survey_Responses table
+        const [userResponse] = await knex("Survey_Responses").insert({
+            Timestamp: formattedTimestamp,
+            Age: req.body.age,
+            Gender: req.body.gender,
+            Relationship_Status: req.body.relationship,
+            Location: req.body.location,
+            Occupation: req.body.Occupation,
+            Social_Media_User: req.body.usage,
+            Avg_Social_Media_Hours_Daily: req.body.AvgTime,
+            Purposeless_Usage_Frequency: req.body.purposeless,
+            Distracted_Use_Frequency: req.body.distracted,
+            Restless_Without_Social_Media_Level: req.body.restless,
+            General_Distraction_Level: req.body.eDistract,
+            General_Worry_Level: req.body.worried,
+            General_Difficulty_Concentrating_Level: req.body.dConcentrate,
+            Comparison_To_Others_Frequency: req.body.comparison,
+            Feeling_About_Comparison_Level: req.body.comparisonFeeling,
+            Seeking_Validation_Frequency: req.body.validation,
+            Depression_Frequency: req.body.depressed,
+            Interest_Fluctuation_Frequency: req.body.fluctuate,
+            Sleep_Issue_Frequency: req.body.sleepIssues,
+            Comments: req.body.Comments
+        }, ["User_Id"]); // Retrieve the User_Id
+        const userResponseId = userResponse.User_Id;
+        // Insert data into User_Engagement_Info table for platforms and organizations
+        const engagementData = [];
+        req.body.organizations.forEach(organizationNumber => {
+            req.body.platforms.forEach(platformNumber => {
+                engagementData.push({
+                    User_Id: userResponseId,
+                    Organization_Num: organizationNumber,
+                    Platform_Num: platformNumber,
+                    // Add other fields as needed
+                });
+            });
+        });
+        await knex("User_Engagement_Info").insert(engagementData);
+        res.redirect("/displayData");
     } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
+        console.error(error);
+        res.status(500).send("Internal Server Error");
     }
-  });
+});
 
 // app.post("/deleteBand/:id", (req, res) => {
 //     knex("bands").where("band_id", req.params.id).del().then(mybands => {
