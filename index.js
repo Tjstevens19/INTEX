@@ -210,40 +210,52 @@ app.get('/modifyAccount', (req, res) => {
     res.render('modifyUser');
 });
 
+app.post('/modifyAccount', (req, res) => {
+    const { oldUsername, newUsername, newPassword } = req.body;
+    // Check if the user is trying to modify the admin username or password
+    if (oldUsername === 'admin' || newUsername === 'admin' || newPassword === 'admin') {
+        return res.send(`
+            <script>
+                alert('Unauthorized: Modifying admin credentials is not allowed.');
+                window.location.href = '/modifyAccount';
+            </script>
+        `);
+    }
     knex
-            .select("user_name")
-            .from("users")
-            .where("user_name", oldUsername)
-            .then(users => {
-                if (users.length === 0) {
-                    // oldUsername doesn't exist in the database
-                    res.send(`
-                        <script>
-                            alert('User not found. Please check the old username');
-                            window.location.href = '/modifyAccount';
-                        </script>
-                    `);
-                } else {
-                    // Update the user's information
-                    return knex('users')
-                    .where('user_name', oldUsername)
-                    .update({
-                        user_name: newUsername,
-                        password: newPassword,
-                    });
-                }
-            })
-            .then(() => {
+        .select("user_name")
+        .from("users")
+        .where("user_name", oldUsername)
+        .then(users => {
+            if (users.length === 0) {
+                // oldUsername doesn't exist in the database
                 res.send(`
                     <script>
-                        alert('Account modified successfully');
-                        window.location.href = '/login';
+                        alert('User not found. Please check the old username');
+                        window.location.href = '/modifyAccount';
                     </script>
                 `);
-            })
-            .catch((error) => {
-                console.error(error);
-                res.status(500).send('Internal Server Error');
+            } else {
+                // Update the user's information
+                return knex('users')
+                  .where('user_name', oldUsername)
+                  .update({
+                    user_name: newUsername,
+                    password: newPassword,
+                  });
+            }
+        })
+        .then(() => {
+            res.send(`
+                <script>
+                    alert('Account modified successfully');
+                    window.location.href = '/login';
+                </script>
+            `);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        });
 });
 
 
