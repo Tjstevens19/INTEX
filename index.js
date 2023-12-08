@@ -1,35 +1,52 @@
+// Section 4 Group 10
+// Magda Imerlishvili, Ethan Nance, Taylor Stevens, Nicholas Thomas
+
+// Import required modules
 const express = require("express");
 const moment = require('moment-timezone');
+
+// Initialize Express app
 let app = express();
+
+// Set the path module for handling file paths
 let path = require("path");
+
+// Set the default port to 3000 or use the environment variable
 const port = process.env.PORT || 3000;
 
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Set the view engine to EJS
 app.set("view engine", "ejs");
+
+// Enable parsing of URL-encoded data
 app.use(express.urlencoded({extended: true}));
 
+// Configure the database connection using Knex
 const knex = require("knex")({
     client: "pg",
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "admin" || "S0cc3rr0cks",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
 });  
 
-
+// Handle requests to the root path
 app.get("/", (req, res) => {
     res.render("landingPage");
 });
 
+// Handle requests to the '/login' path
 app.get('/login', (req, res) => {
     res.render('login');
 });
 
-
+// Handle login form submissions
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -51,27 +68,31 @@ app.post('/login', (req, res) => {
                     // res.send('Login successful!');
                     res.redirect("/displayData");
                 } else {
+                    // Display an alert and redirect if login fails
                     res.send(`
+                        <script>
+                            alert('Login failed. Check your username and password.');
+                            window.location.href = '/login';
+                        </script>
+                    `);
+                }
+            } else {
+                // Display an alert and redirect if user is not found
+                res.send(`
                     <script>
-                        alert('Login failed. Check your username and password.');
+                        alert('Login failed. No user found with that username, please try again or create an account.');
                         window.location.href = '/login';
                     </script>
                 `);
-                }
-            } else {
-                res.send(`
-                <script>
-                    alert('Login failed. No user found with that username, please try again or create an account.');
-                    window.location.href = '/login';
-                </script>
-            `);
             }
         })
         .catch(err => {
+            // Log and handle any errors that occur during login
             console.log(err);
             res.status(500).json({ err });
         });
 });
+
 app.get('/displayData', (req, res) => {
 
         knex.select("Survey_Responses.User_Id", 
@@ -125,22 +146,27 @@ app.get('/displayData', (req, res) => {
                 .join('User_Engagement_Info', 'Survey_Responses.User_Id', '=', 'User_Engagement_Info.User_Id')
                 .join('Organization_Info', 'User_Engagement_Info.Organization_Num', '=', 'Organization_Info.Organization_Num')
                 .join('Platform_Info', 'User_Engagement_Info.Platform_Num', '=', 'Platform_Info.Platform_Num')
-                .orderBy('Survey_Responses.User_Id') // Order by Timestamp column
-                .distinctOn('Survey_Responses.User_Id') // Use DISTINCT ON
+                .orderBy('Survey_Responses.User_Id')
+                .distinctOn('Survey_Responses.User_Id')
                 .then(responses => {
+                    // Render the 'displayData' view with the retrieved survey responses
                     res.render("displayData", { SurveyResponses: responses });
                 })
                 .catch(err => {
+                    // Log and handle any errors that occur during data retrieval
                     console.log(err);
                     res.status(500).json({ err });
                 });
         });
+        
 
 
+// Handle requests to the '/createAccount' path
 app.get('/createAccount', (req, res) => {
     res.render('createUser');
 });
 
+// Handle new account creation form submissions
 app.post('/createAccount', (req, res) => {
     const { newUsername, newPassword } = req.body;
 
@@ -166,6 +192,7 @@ app.post('/createAccount', (req, res) => {
                     .then(insertedUsers => {
                         // Check if the insertion was successful
                         if (insertedUsers.length > 0) {
+                            // Display a success alert and redirect
                             res.send(`
                                 <script>
                                     alert('Account created successfully!');
@@ -183,24 +210,29 @@ app.post('/createAccount', (req, res) => {
                         }
                     })
                     .catch(err => {
+                        // Log and handle any errors that occur during account creation
                         console.log(err);
                         res.status(500).json({ err });
                     });
             }
         })
         .catch(err => {
+            // Log and handle any errors that occur during account creation
             console.log(err);
             res.status(500).json({ err });
         });
 });
 
 
+// Handle requests to the '/modifyAccount' path
 app.get('/modifyAccount', (req, res) => {
     res.render('modifyUser');
 });
 
+// Handle account modification form submissions
 app.post('/modifyAccount', (req, res) => {
     const { oldUsername, newUsername, newPassword } = req.body;
+    
     // Check if the user is trying to modify the admin username or password
     if (oldUsername === 'admin' || newUsername === 'admin' || newPassword === 'admin') {
         return res.send(`
@@ -210,6 +242,7 @@ app.post('/modifyAccount', (req, res) => {
             </script>
         `);
     }
+    
     knex
         .select("user_name")
         .from("users")
@@ -224,17 +257,17 @@ app.post('/modifyAccount', (req, res) => {
                     </script>
                 `);
             } else {
-                // Update the user's information
+                // Update the user's information in the database
                 return knex('users')
                   .where('user_name', oldUsername)
                   .update({
                     user_name: newUsername,
                     password: newPassword,
                   });
-
             }
         })
         .then(() => {
+            // Display a success alert and redirect
             res.send(`
                 <script>
                     alert('Account modified successfully');
@@ -243,20 +276,24 @@ app.post('/modifyAccount', (req, res) => {
             `);
         })
         .catch((error) => {
+            // Log and handle any errors that occur during account modification
             console.error(error);
             res.status(500).send('Internal Server Error');
         });
 });
 
-
+// Handle requests to the '/addResponse' path
 app.get("/addResponse", (req, res) => {
     res.render("dataGather");
 });    
     
+// Handle new survey response form submissions
 app.post("/addResponse", async (req, res) => {
     try {
+        // Format the current date and time using moment-timezone
         const currentDate = moment().tz('MST');
         const formattedTimestamp = currentDate.format("YYYY-MM-DD HH:mm:ss");
+
         // Insert data into Survey_Responses table
         const [userResponse] = await knex("Survey_Responses").insert({
             Timestamp: formattedTimestamp,
@@ -281,7 +318,9 @@ app.post("/addResponse", async (req, res) => {
             Sleep_Issue_Frequency: req.body.sleepIssues,
             Comments: req.body.comments
         }, ["User_Id"]); // Retrieve the User_Id
+
         const userResponseId = userResponse.User_Id;
+
         // Insert data into User_Engagement_Info table for platforms and organizations
         const engagementData = [];
         req.body.organizations.forEach(organizationNumber => {
@@ -293,7 +332,10 @@ app.post("/addResponse", async (req, res) => {
                 });
             });
         });
+
         await knex("User_Engagement_Info").insert(engagementData);
+
+        // Display a success alert and redirect
         res.send(`
         <script>
             alert('Submitted Successfully');
@@ -301,10 +343,11 @@ app.post("/addResponse", async (req, res) => {
         </script>
         `);
     } catch (error) {
+        // Log and handle any errors that occur during survey response submission
         console.error(error);
         res.status(500).json({error});
     }
 });
 
-
+// Start the Express app and listen on the specified port
 app.listen(port, () => console.log("Express App has started and server is listening!"));
