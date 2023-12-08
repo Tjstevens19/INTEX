@@ -32,8 +32,8 @@
         <div class="q">
         <div class="age">
     
-            <label for="age">What is your age?</label><br>
-            <input type="text" id="age" name="age" pattern="[0-9]+" title="Please enter a valid age as a number" required><br>
+          <label for="age">What is your age?</label><br>
+          <input type="text" id="age" name="age" pattern="^(100|[1-9]?[0-9])$" title="Please enter a valid age between 0 and 100" required><br>
         
           </div>
         </div>
@@ -82,17 +82,17 @@
           <div class="question">
             <label>What type of organizations are you affiliated with? <i> (Select All That Apply)</strong></i> </label>
             <div class="question-answer">
-                <input type="checkbox" value="University" id="org1" name="organizations"/>
+                <input type="checkbox" value="1" id="org1" name="organizations"/>
                 <label for="org1" class="checkbox"><span>University</span></label>
-                <input type="checkbox" value="School" id="org2" name="organizations"/>
+                <input type="checkbox" value="2" id="org2" name="organizations"/>
                 <label for="org2" class="checkbox"><span>School</span></label>
-                <input type="checkbox" value="Private" id="org3" name="organizations"/>
+                <input type="checkbox" value="3" id="org3" name="organizations"/>
                 <label for="org3" class="checkbox"><span>Private</span></label>
-                <input type="checkbox" value="Governemnt" id="org4" name="organizations"/>
+                <input type="checkbox" value="4" id="org4" name="organizations"/>
                 <label for="org4" class="checkbox"><span>Government</span></label>
-                <input type="checkbox" value="Company" id="org5" name="organizations"/>
+                <input type="checkbox" value="5" id="org5" name="organizations"/>
                 <label for="org5" class="checkbox"><span>Company</span></label>
-                <input type="checkbox" value="N/A" id="org6" name="organizations"/>
+                <input type="checkbox" value="6" id="org6" name="organizations"/>
                 <label for="org6" class="checkbox"><span>N/A</span></label>
             </div>
           </div>
