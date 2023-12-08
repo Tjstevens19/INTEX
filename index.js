@@ -11,7 +11,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "flexflex" || "admin" || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "admin" || "S0cc3rr0cks",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -56,7 +56,7 @@ app.post('/login', (req, res) => {
                 // Dummy example: Check if the provided password matches the stored password
                 if (username === "admin" && password === "admin") {
                     // res.send('Login successful!');
-                    res.redirect("/displayAllData");
+                    res.redirect("/displayData");
                 }
                 else if (password === storedPassword) {
                     // res.send('Login successful!');
@@ -147,7 +147,7 @@ app.get('/displayData', (req, res) => {
                 .join('User_Engagement_Info', 'Survey_Responses.User_Id', '=', 'User_Engagement_Info.User_Id')
                 .join('Organization_Info', 'User_Engagement_Info.Organization_Num', '=', 'Organization_Info.Organization_Num')
                 .join('Platform_Info', 'User_Engagement_Info.Platform_Num', '=', 'Platform_Info.Platform_Num')
-                .orderBy('Survey_Responses.User_Id') // Order by Timestamp column
+                .orderBy('Survey_Responses.User_Id') // Order by User_Id column
                 .distinctOn('Survey_Responses.User_Id') // Use DISTINCT ON
                 .then(responses => {
                     res.render("displayData", { SurveyResponses: responses });
@@ -238,37 +238,50 @@ app.get('/modifyAccount', (req, res) => {
 });
 
 app.post('/modifyAccount', (req, res) => {
-    const { user_id, newUsername, newPassword } = req.body;
-
-    knex("users")
-        .where("user_id", parseInt(user_id))
-        .update({
-            user_name: newUsername,
-            password: newPassword,
-        })
-        .returning("*")  // Retrieve the updated user data
-        .then(updatedUsers => {
-            if (updatedUsers.length === 0) {
-                // User not found, handle accordingly (e.g., display an error message)
+    const { oldUsername, newUsername, newPassword } = req.body;
+    // Check if the user is trying to modify the admin username or password
+    if (oldUsername === 'admin' || newUsername === 'admin' || newPassword === 'admin') {
+        return res.send(`
+            <script>
+                alert('Unauthorized: Modifying admin credentials is not allowed.');
+                window.location.href = '/modifyAccount';
+            </script>
+        `);
+    }
+    knex
+        .select("user_name")
+        .from("users")
+        .where("user_name", oldUsername)
+        .then(users => {
+            if (users.length === 0) {
+                // oldUsername doesn't exist in the database
                 res.send(`
                     <script>
-                        alert('User not found. Unable to modify account.');
-                        window.location.href = '/displayData';
+                        alert('User not found. Please check the old username');
+                        window.location.href = '/modifyAccount';
                     </script>
                 `);
             } else {
-                // Redirect after successful modification with a success message
-                res.send(`
-                    <script>
-                        alert('User updated successfully.');
-                        window.location.href = '/displayData';
-                    </script>
-                `);
+                // Update the user's information
+                return knex('users')
+                  .where('user_name', oldUsername)
+                  .update({
+                    user_name: newUsername,
+                    password: newPassword,
+                  });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ err });
+        .then(() => {
+            res.send(`
+                <script>
+                    alert('Account modified successfully');
+                    window.location.href = '/login';
+                </script>
+            `);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
         });
 });
 
@@ -346,33 +359,36 @@ app.get("/addResponse", (req, res) => {
 // });
 
 // Define routes
-// app.post("/addResponse", async (req, res) => {
-    // try {
-    //   // Insert data into Survey_Responses table
-    // await knex("Survey_Responses").insert({
-    //     Timestamp: knex.fn.now(),
-    //     Age: req.body.age,
-    //     Gender: req.body.gender,
-    //     Relationship_Status: req.body.relationship,
-    //     Location: req.body.location,
-    //     Occupation: req.body.Occupation,
-    //     Social_Media_User: req.body.usage,
-    //     Avg_Social_Media_Hours_Daily: req.body.AvgTime,
-    //     Purposeless_Usage_Frequency: req.body.purposeless,
-    //     Distracted_Use_Frequency: req.body.distracted,
-    //     Restless_Without_Social_Media_Level: req.body.restless,
-    //     General_Distraction_Level: req.body.eDistract,
-    //     General_Worry_Level: req.body.worried,
-    //     General_Difficulty_Concentrating_Level: req.body.dConcentrate,
-    //     Comparison_To_Others_Frequency: req.body.comparison,
-    //     Feeling_About_Comparison_Level: req.body.comparisonFeeling,
-    //     Seeking_Validation_Frequency: req.body.validation,
-    //     Depression_Frequency: req.body.depressed,
-    //     Interest_Fluctuation_Frequency: req.body.fluctuate,
-    //     Sleep_Issue_Frequency: req.body.sleepIssues,
-    //     Comments: req.body.Comments
-    //     // Add other fields as needed
-    //   });
+
+app.post("/addResponse", async (req, res) => {
+    try {
+        const currentDate = new Date();
+        const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
+      // Insert data into Survey_Responses table
+    await knex("Survey_Responses").insert({
+        Timestamp: formattedTimestamp,
+        Age: req.body.age,
+        Gender: req.body.gender,
+        Relationship_Status: req.body.relationship,
+        Location: req.body.location,
+        Occupation: req.body.Occupation,
+        Social_Media_User: req.body.usage,
+        Avg_Social_Media_Hours_Daily: req.body.AvgTime,
+        Purposeless_Usage_Frequency: req.body.purposeless,
+        Distracted_Use_Frequency: req.body.distracted,
+        Restless_Without_Social_Media_Level: req.body.restless,
+        General_Distraction_Level: req.body.eDistract,
+        General_Worry_Level: req.body.worried,
+        General_Difficulty_Concentrating_Level: req.body.dConcentrate,
+        Comparison_To_Others_Frequency: req.body.comparison,
+        Feeling_About_Comparison_Level: req.body.comparisonFeeling,
+        Seeking_Validation_Frequency: req.body.validation,
+        Depression_Frequency: req.body.depressed,
+        Interest_Fluctuation_Frequency: req.body.fluctuate,
+        Sleep_Issue_Frequency: req.body.sleepIssues,
+        Comments: req.body.Comments
+        // Add other fields as needed
+      });
   
       // Insert data into User_Engagement_Info table
     //   await db("User_Engagement_Info").insert({
