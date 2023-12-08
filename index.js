@@ -306,7 +306,12 @@ app.post("/addResponse", async (req, res) => {
             });
         });
         await knex("User_Engagement_Info").insert(engagementData);
-        res.redirect("/displayData");
+        res.send(`
+        <script>
+            alert('Submitted Successfully');
+            window.location.href = '/displayData';
+        </script>
+        `);
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
