@@ -45,7 +45,7 @@ app.post('/login', (req, res) => {
                 // Dummy example: Check if the provided password matches the stored password
                 if (username === "admin" && password === "admin") {
                     // res.send('Login successful!');
-                    res.redirect("/displayAllData");
+                    res.redirect("/displayData");
                 }
                 else if (password === storedPassword) {
                     // res.send('Login successful!');
