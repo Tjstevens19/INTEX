@@ -1,7 +1,9 @@
 const express = require("express");
+const moment = require('moment-timezone');
 let app = express();
 let path = require("path");
 const port = process.env.PORT || 3000;
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
@@ -419,8 +421,8 @@ app.get("/addResponse", (req, res) => {
 //   });
 app.post("/addResponse", async (req, res) => {
     try {
-        const currentDate = new Date();
-        const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
+        const currentDate = moment().tz('UTC');
+        const formattedTimestamp = currentDate.format("YYYY-MM-DD HH:mm:ss");
         // Insert data into Survey_Responses table
         const [userResponse] = await knex("Survey_Responses").insert({
             Timestamp: formattedTimestamp,
