@@ -20,19 +20,6 @@ const knex = require("knex")({
     }
 });  
 
-// app.get("/", (req, res) => {
-//     knex.select("band_id", 
-//                 "band_name", 
-//                 "lead_singer",
-//                 "music_genre",
-//                 "still_rocking",
-//                 "rating").from('bands').then(bands => {
-//         res.render("displayBand", {mybands: bands});
-//     }).catch(err => {
-//         console.log(err);
-//         res.status(500).json({err});
-//     });
-// });
 
 app.get("/", (req, res) => {
     res.render("landingPage");
