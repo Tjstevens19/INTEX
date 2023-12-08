@@ -309,12 +309,12 @@ app.post("/addResponse", async (req, res) => {
         res.send(`
         <script>
             alert('Submitted Successfully');
-            window.location.href = '/displayData';
+            window.location.href = '/';
         </script>
         `);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({err});
     }
 });
 
