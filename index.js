@@ -421,8 +421,10 @@ app.get("/addResponse", (req, res) => {
 //   });
 app.post("/addResponse", async (req, res) => {
     try {
-        const currentDate = moment().tz('UTC');
+        const currentDate = moment().tz('MST');
         const formattedTimestamp = currentDate.format("YYYY-MM-DD HH:mm:ss");
+        // const currentDate = new Date();
+        // const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
         // Insert data into Survey_Responses table
         const [userResponse] = await knex("Survey_Responses").insert({
             Timestamp: formattedTimestamp,
