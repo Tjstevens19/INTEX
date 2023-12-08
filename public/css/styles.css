@@ -10969,6 +10969,15 @@ input[type="date"]::-webkit-inner-spin-button {
   margin: 10px 20px 25px 10px;
   cursor: pointer;
   }
+  label.checkbox:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    border-radius: 0; /* Change border-radius to 0 for square boxes */
+    border: 2px solid #ccc;
+  }
   .question span {
   margin-left: 30px;
   }
@@ -10981,32 +10990,37 @@ input[type="date"]::-webkit-inner-spin-button {
   }
   
   label.checkbox:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    border-radius: 0; /* Set border-radius to 0 for a box shape */
+    border: 2px solid #000; /* Set border color to black */
+    background-color: transparent; /* Set background color to transparent */
   }
-  input[type=checkbox]:checked + label:before, label.checkbox:hover:before {
-  border: 2px solid  #669999;
+  
+  input[type=checkbox]:checked + label:before,
+  label.checkbox:hover:before {
+    border: 2px solid #000; /* Set border color to black when checked or hovered */
   }
+  
   label.checkbox:after {
-  content: "";
-  position: absolute;
-  top: 6px;
-  left: 5px;
-  width: 8px;
-  height: 4px;
-  border: 3px solid  #669999;
-  border-top: none;
-  border-right: none;
-  transform: rotate(-45deg);
-  opacity: 0;
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    width: 8px;
+    height: 4px;
+    border: 3px solid #000; /* Set border color to black */
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    opacity: 0;
   }
+  
   input[type=checkbox]:checked + label:after {
-  opacity: 1;
+    opacity: 1;
   }
   
   .question-answer div {
@@ -11047,6 +11061,7 @@ input[type="date"]::-webkit-inner-spin-button {
   /* Allow long words to break onto the next line */
       word-wrap: break-word;
       white-space: pre-wrap;
+      
     }
     
     .testbox {
@@ -11096,6 +11111,15 @@ input[type="date"]::-webkit-inner-spin-button {
         td.first-col,
         td:not(.first-col) label {
           padding: 8px;
+        
+        }
+        td:not(.first-col):not(:first-child) input[type="radio"] {
+          transform: scale(2); /* Adjust the scale factor as needed */
+        }
+        
+        /* Optional: Add some margin to space out the radio buttons */
+        td:not(.first-col):not(:first-child) label {
+          margin-right: 10px; /* Adjust the margin as needed */
         }
         button {
         width: 150px;
