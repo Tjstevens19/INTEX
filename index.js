@@ -39,7 +39,7 @@ app.post('/login', (req, res) => {
         .where("user_name", username)
         .then(users => {
             if (users.length > 0) {
-                // Assuming passwords are hashed, you should use a proper authentication method here.
+                // Store the password from the database so you can compare
                 const storedPassword = users[0].password;
 
                 // Dummy example: Check if the provided password matches the stored password
