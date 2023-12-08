@@ -20,19 +20,6 @@ const knex = require("knex")({
     }
 });  
 
-// app.get("/", (req, res) => {
-//     knex.select("band_id", 
-//                 "band_name", 
-//                 "lead_singer",
-//                 "music_genre",
-//                 "still_rocking",
-//                 "rating").from('bands').then(bands => {
-//         res.render("displayBand", {mybands: bands});
-//     }).catch(err => {
-//         console.log(err);
-//         res.status(500).json({err});
-//     });
-// });
 
 app.get("/", (req, res) => {
     res.render("landingPage");
@@ -291,7 +278,7 @@ app.post("/addResponse", async (req, res) => {
             Depression_Frequency: req.body.depressed,
             Interest_Fluctuation_Frequency: req.body.fluctuate,
             Sleep_Issue_Frequency: req.body.sleepIssues,
-            Comments: req.body.Comments
+            Comments: req.body.comments
         }, ["User_Id"]); // Retrieve the User_Id
         const userResponseId = userResponse.User_Id;
         // Insert data into User_Engagement_Info table for platforms and organizations
