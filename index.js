@@ -13,7 +13,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "S0cc3rr0cks" || "admin" || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "flexflex" || "admin" || "S0cc3rr0cks",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -58,7 +58,7 @@ app.post('/login', (req, res) => {
                 // Dummy example: Check if the provided password matches the stored password
                 if (username === "admin" && password === "admin") {
                     // res.send('Login successful!');
-                    res.redirect("/displayData");
+                    res.redirect("/displayAllData");
                 }
                 else if (password === storedPassword) {
                     // res.send('Login successful!');
@@ -149,7 +149,7 @@ app.get('/displayData', (req, res) => {
                 .join('User_Engagement_Info', 'Survey_Responses.User_Id', '=', 'User_Engagement_Info.User_Id')
                 .join('Organization_Info', 'User_Engagement_Info.Organization_Num', '=', 'Organization_Info.Organization_Num')
                 .join('Platform_Info', 'User_Engagement_Info.Platform_Num', '=', 'Platform_Info.Platform_Num')
-                .orderBy('Survey_Responses.User_Id') // Order by User_Id column
+                .orderBy('Survey_Responses.User_Id') // Order by Timestamp column
                 .distinctOn('Survey_Responses.User_Id') // Use DISTINCT ON
                 .then(responses => {
                     res.render("displayData", { SurveyResponses: responses });
@@ -224,50 +224,37 @@ app.get('/modifyAccount', (req, res) => {
 });
 
 app.post('/modifyAccount', (req, res) => {
-    const { oldUsername, newUsername, newPassword } = req.body;
-    // Check if the user is trying to modify the admin username or password
-    if (oldUsername === 'admin' || newUsername === 'admin' || newPassword === 'admin') {
-        return res.send(`
-            <script>
-                alert('Unauthorized: Modifying admin credentials is not allowed.');
-                window.location.href = '/modifyAccount';
-            </script>
-        `);
-    }
-    knex
-        .select("user_name")
-        .from("users")
-        .where("user_name", oldUsername)
-        .then(users => {
-            if (users.length === 0) {
-                // oldUsername doesn't exist in the database
+    const { user_id, newUsername, newPassword } = req.body;
+
+    knex("users")
+        .where("user_id", parseInt(user_id))
+        .update({
+            user_name: newUsername,
+            password: newPassword,
+        })
+        .returning("*")  // Retrieve the updated user data
+        .then(updatedUsers => {
+            if (updatedUsers.length === 0) {
+                // User not found, handle accordingly (e.g., display an error message)
                 res.send(`
                     <script>
-                        alert('User not found. Please check the old username');
-                        window.location.href = '/modifyAccount';
+                        alert('User not found. Unable to modify account.');
+                        window.location.href = '/displayData';
                     </script>
                 `);
             } else {
-                // Update the user's information
-                return knex('users')
-                  .where('user_name', oldUsername)
-                  .update({
-                    user_name: newUsername,
-                    password: newPassword,
-                  });
+                // Redirect after successful modification with a success message
+                res.send(`
+                    <script>
+                        alert('User updated successfully.');
+                        window.location.href = '/displayData';
+                    </script>
+                `);
             }
         })
-        .then(() => {
-            res.send(`
-                <script>
-                    alert('Account modified successfully');
-                    window.location.href = '/login';
-                </script>
-            `);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).send('Internal Server Error');
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ err });
         });
 });
 
