@@ -360,35 +360,35 @@ app.get("/addResponse", (req, res) => {
 
 // Define routes
 
-app.post("/addResponse", async (req, res) => {
-    try {
-        const currentDate = new Date();
-        const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
-      // Insert data into Survey_Responses table
-    await knex("Survey_Responses").insert({
-        Timestamp: formattedTimestamp,
-        Age: req.body.age,
-        Gender: req.body.gender,
-        Relationship_Status: req.body.relationship,
-        Location: req.body.location,
-        Occupation: req.body.Occupation,
-        Social_Media_User: req.body.usage,
-        Avg_Social_Media_Hours_Daily: req.body.AvgTime,
-        Purposeless_Usage_Frequency: req.body.purposeless,
-        Distracted_Use_Frequency: req.body.distracted,
-        Restless_Without_Social_Media_Level: req.body.restless,
-        General_Distraction_Level: req.body.eDistract,
-        General_Worry_Level: req.body.worried,
-        General_Difficulty_Concentrating_Level: req.body.dConcentrate,
-        Comparison_To_Others_Frequency: req.body.comparison,
-        Feeling_About_Comparison_Level: req.body.comparisonFeeling,
-        Seeking_Validation_Frequency: req.body.validation,
-        Depression_Frequency: req.body.depressed,
-        Interest_Fluctuation_Frequency: req.body.fluctuate,
-        Sleep_Issue_Frequency: req.body.sleepIssues,
-        Comments: req.body.Comments
-        // Add other fields as needed
-      });
+// app.post("/addResponse", async (req, res) => {
+//     try {
+//         const currentDate = new Date();
+//         const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
+//       // Insert data into Survey_Responses table
+//     await knex("Survey_Responses").insert({
+//         Timestamp: formattedTimestamp,
+//         Age: req.body.age,
+//         Gender: req.body.gender,
+//         Relationship_Status: req.body.relationship,
+//         Location: req.body.location,
+//         Occupation: req.body.Occupation,
+//         Social_Media_User: req.body.usage,
+//         Avg_Social_Media_Hours_Daily: req.body.AvgTime,
+//         Purposeless_Usage_Frequency: req.body.purposeless,
+//         Distracted_Use_Frequency: req.body.distracted,
+//         Restless_Without_Social_Media_Level: req.body.restless,
+//         General_Distraction_Level: req.body.eDistract,
+//         General_Worry_Level: req.body.worried,
+//         General_Difficulty_Concentrating_Level: req.body.dConcentrate,
+//         Comparison_To_Others_Frequency: req.body.comparison,
+//         Feeling_About_Comparison_Level: req.body.comparisonFeeling,
+//         Seeking_Validation_Frequency: req.body.validation,
+//         Depression_Frequency: req.body.depressed,
+//         Interest_Fluctuation_Frequency: req.body.fluctuate,
+//         Sleep_Issue_Frequency: req.body.sleepIssues,
+//         Comments: req.body.Comments
+//         // Add other fields as needed
+//       });
   
       // Insert data into User_Engagement_Info table
     //   await db("User_Engagement_Info").insert({
