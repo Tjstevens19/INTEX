@@ -13,7 +13,7 @@ const knex = require("knex")({
     connection: {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "flexflex" || "admin" || "S0cc3rr0cks",
+        password : process.env.RDS_PASSWORD || "S0cc3rr0cks",
         database : process.env.RDS_DB_NAME || "INTEX",
         port : process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -100,17 +100,6 @@ app.get('/displayData', (req, res) => {
                 "Organization_Info.Organization_Type" ,
                  "User_Engagement_Info.Platform_Num",
                  "Platform_Info.Platform_Name",
-                 // Replace with the actual column name from UserInfo
-               
-            //      knex.raw(`
-            //      (
-            //          SELECT STRING_AGG(DISTINCT "Platform_Info"."Platform_Name", ', ') 
-            //          FROM "User_Engagement_Info" 
-            //          JOIN "Platform_Info" ON "User_Engagement_Info"."Platform_Num" = "Platform_Info"."Platform_Num" 
-            //          WHERE "User_Engagement_Info"."User_Id" = "Survey_Responses"."User_Id"
-            //      ) AS "Platform_Names"
-            //  `),
-             // Organization Types subquery
              knex.raw(`
              (
                  SELECT STRING_AGG(DISTINCT "Platform_Info"."Platform_Name", ', ') 
@@ -268,8 +257,6 @@ app.post("/addResponse", async (req, res) => {
     try {
         const currentDate = moment().tz('MST');
         const formattedTimestamp = currentDate.format("YYYY-MM-DD HH:mm:ss");
-        // const currentDate = new Date();
-        // const formattedTimestamp = currentDate.toISOString().slice(0, 19).replace("T", " ");
         // Insert data into Survey_Responses table
         const [userResponse] = await knex("Survey_Responses").insert({
             Timestamp: formattedTimestamp,
@@ -315,7 +302,7 @@ app.post("/addResponse", async (req, res) => {
         `);
     } catch (error) {
         console.error(error);
-        res.status(500).json({err});
+        res.status(500).json({error});
     }
 });
 
