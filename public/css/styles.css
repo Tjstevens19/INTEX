@@ -527,7 +527,7 @@ progress {
 
 .display-4 {
   font-size: calc(1.475rem + 2.7vw);
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.2;
 }
 @media (min-width: 1200px) {
@@ -10863,7 +10863,7 @@ header.masthead {
   padding-top: calc((1080 / 1920) * 200% + 60px); /* Adjust padding-top based on video aspect ratio */
   padding-bottom: 50px;
   background: none;
-  margin-top: 20px;
+  
 }
 
 header.masthead video {
@@ -11210,3 +11210,8 @@ input[type="date"]::-webkit-inner-spin-button {
   font-weight: bold;
   color: black;
 }
+
+
+
+
+
