@@ -242,6 +242,7 @@ app.post('/modifyAccount', (req, res) => {
                     user_name: newUsername,
                     password: newPassword,
                   });
+
             }
         })
         .then(() => {
